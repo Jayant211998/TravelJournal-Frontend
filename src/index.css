@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.header{
+  background-color: #F55A5A;
+  color: white;
+  /* min-height: 120%; */
+  font-size: 2rem;
+  padding:1%;
+  text-align: left;
+  margin-left: 0;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0;
+
+}
+.heading{
+  /* justify-content: space-between; */
+  /* display: flex; */
+  /* background-color: black; */
+  margin-bottom: 0;
+
+}
+.links{
+  display: flex;
+  justify-content: space-between;
+  /* background-color: black; */
+  padding-top: 0.5rem;
+  width:3rem;
+  /* padding:0; */
+  margin:0;
+
+}
+.link{
+  font-size: 1.5rem;
+    /* background-color: black; */
+
+  text-decoration: none;
+  margin:0;
+}
+.loginImage{
+  width:4rem;
+  height:2rem;
+}
+.main{
+  text-align: left;
+  padding: 0.5rem;
+
+}
+.info{
+  display: flex;
+  width:100%;
+}
+.image{
+  width:25%;
+  margin-right:5rem;
+  border-radius: 1rem;
+}
+.details{
+  width:60%;
+}
+.action{
+  margin-top: 5.5rem;
+  margin-left: 2rem;
+  justify-content: space-between;
+  display:flex;
+  width: 4rem;
+  /* background-color: blue; */
+}
+.comp{
+  display:flex;
+  margin: 2rem; 
+  
+
+}
+.location{
+  display:flex;
+}
+.place{
+
+}
+.maps{
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+.date{
+  display: flex;
+}
+.start{
+  margin-right: 1rem;
+}
+.end{
+
+}
+.form-button{
+  border-radius: 100px;
+  background-color: #F55A5A;
+}
