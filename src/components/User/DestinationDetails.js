@@ -55,6 +55,11 @@ export default function DestinationDetails(){
     const handleImageHide = (event) =>{
         window.location.replace('/myaccount/destinationdetails');
     }
+    function deleteItem(id){
+        setData((prev)=>{
+            return prev.filter(data=>data.id!==id)
+        })
+    }
     const handleImagesShow=async(event,id)=>{
         const token = cookie['token'];
         const imgList = await axios.get(`${process.env.REACT_APP_SERVER}/getImages/${id}`,{
@@ -70,7 +75,7 @@ export default function DestinationDetails(){
     const locationArr = data.map(loc => {
         i+=1;
         return(
-            <Location info={loc} key={i} id={i} show={true} handleImagesShow={handleImagesShow}/>
+            <Location info={loc} key={i} id={i} show={true} deleteItem={deleteItem} handleImagesShow={handleImagesShow}/>
         );
     }) 
     return(

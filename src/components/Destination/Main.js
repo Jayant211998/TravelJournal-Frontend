@@ -46,6 +46,7 @@ export default function Main(){
         }
         getData();
     },[])
+    function deleteItem(id){}
     function handleClose(e){
         setOpen(false);
         setText('')
@@ -68,7 +69,7 @@ export default function Main(){
     const locationArr = data.map(loc => {
         i+=1;
         return(
-            <Location key={i} info={loc} id={i} show={false} handleImagesShow={handleImagesShow}/>
+            <Location key={i} info={loc} id={i} show={false} deleteItem={deleteItem} handleImagesShow={handleImagesShow}/>
         );
     }) 
     return(

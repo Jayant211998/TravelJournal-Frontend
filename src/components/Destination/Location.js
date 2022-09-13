@@ -36,7 +36,8 @@ export default function Loaction(props){
         setOpen(false);
         setText('')
         setHeader('Invalid Input Given')
-        window.location.reload(true);
+        props.deleteItem(props.info.id);
+        // window.location.reload(true);
       }
     const deleteDestination = async(id)=>{
         if(window.confirm('Please Click OK to delete')){
