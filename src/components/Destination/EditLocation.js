@@ -4,7 +4,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import DialogBox from '../UI/DialogBox';
 import { useCookies } from 'react-cookie';
-import encrypt from '../../encrypt'
+import encrypt from '../../encrypt';
+import Loading from '../UI/Loading';
+
 
 export default function EditLocation(props){
   const [cookie,setCookie] = useCookies(); 
@@ -12,7 +14,9 @@ export default function EditLocation(props){
   const [open1,setOpen1] = React.useState(false)
   const [text,setText] = React.useState('')
   const [open,setOpen] = React.useState(false)
-  const [header,setHeader] = React.useState("Invalid Input Given")
+  const [header,setHeader] = React.useState("Invalid Input Given");
+  const [loading,setLoading] = React.useState(false);
+
 
   function handleClose(e){
     setOpen(false);
@@ -24,7 +28,7 @@ export default function EditLocation(props){
     setOpen1(false);
     setText('')
     setHeader('Invalid Input Given');
-    window.location.replace('/myaccount');
+    window.location.replace('/myaccount/destinationdetails');
   }
    const id=(window.location.pathname.split('/').pop());
 
@@ -94,6 +98,7 @@ export default function EditLocation(props){
       setText("Please Enter Last date of travel")
     }
     else {
+      setLoading(true);
       const token = cookie['token'];
       const  data ={...formData, 
         link:"http://maps.google.com/?q="+formData.title}
@@ -103,6 +108,7 @@ export default function EditLocation(props){
           },
           data
         })
+        setLoading(false);
       if(upadateData.data.status){
         setOpen1(true);
         setText(upadateData.data.message)
@@ -111,12 +117,12 @@ export default function EditLocation(props){
         setOpen1(true);
         setText(upadateData.data.message)
         setHeader("Unable to Update Data")
-        window.location.replace('/errorpage');
       }
     }
    }
     return(<>
-          <h1 style={{textAlign:'left',marginLeft:'10%'}}>Edit Destination</h1>
+    {!loading && <>
+    <h1 style={{textAlign:'left',marginLeft:'10%'}}>Edit Destination</h1>
 
     <form style={{textAlign:'left',marginLeft:'10%',marginTop:'2%'}} onSubmit={(e)=>{handleSubmit(e)}}>
     <TextField
@@ -195,5 +201,7 @@ export default function EditLocation(props){
     </form>
     {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
     {open1 && <DialogBox text={text} handleClose={handleClose1} header={header}/>}
+    </>}
+    {loading && <Loading/>}
     </>)
 }

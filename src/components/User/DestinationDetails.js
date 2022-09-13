@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import DialogBox from '../UI/DialogBox';
 import encrypt from '../../encrypt'
+import './user.css';
 
 
 export default function DestinationDetails(){
@@ -21,6 +22,7 @@ export default function DestinationDetails(){
         left:'92%',
         top:'85%'
     }   
+     
     const [imageList,setImageList] = React.useState([]);
     const [text,setText] = React.useState('');
     const [header,setHeader] = React.useState("Invalid Input Given") 
@@ -51,7 +53,7 @@ export default function DestinationDetails(){
         setHeader('Invalid Input Given')
       }
     const handleImageHide = (event) =>{
-        window.location.replace('/main');
+        window.location.replace('/myaccount/destinationdetails');
     }
     const handleImagesShow=async(event,id)=>{
         const token = cookie['token'];
@@ -73,10 +75,16 @@ export default function DestinationDetails(){
     }) 
     return(
         <>
+        {encrypt[1].decrypt(cookie['auth'])==="admin" &&
+            <div>
+                <button className="tab-disable" onClick={(event)=>{window.location.replace('/myaccount/destinationdetails')}}>Destinations</button>
+                <button  className="tab-active" onClick={(event)=>{window.location.replace('/myaccount')}}>Profile</button>
+            </div>
+        }
         <main className='main'>
         {locationArr}
         </main>
-        {encrypt[1].decrypt(cookie['auth'])==='admin' &&<Link to='/addLocation'><Button style={buttonStyle}>+</Button></Link>}
+        {encrypt[1].decrypt(cookie['auth'])==='admin' &&<Link to='addLocation'><Button style={buttonStyle}>+</Button></Link>}
         {images && <Images imageList={imageList} handleImageHide={handleImageHide}/>}
         {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
         </>);

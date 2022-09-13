@@ -8,27 +8,30 @@ import EditLocation from './components/Destination/EditLocation'
 import NoPage from "./components/NoPage";
 import MyAccount from "./components/User/MyAccount";
 import Header from './components/UI/Header';
-import {useCookies} from 'react-cookie';
 import React from 'react';
 import ErrorPage from './components/ErrorPage';
+import DestinationDetails from './components/User/DestinationDetails';
+import ChangePassword from './components/User/ChangePassword';
+import ChangeDetails from './components/User/ChangeDetails';
+import ForgetPassword from './components/User/ForgetPassword'
 
 function App() {
-  const [cookie,setCookie] = useCookies();
+  const path=(window.location.pathname.split('/').pop());
   return (
     <div className="App">      
-      <Header/>
+      {path && path!=='register' && path!=='changepassword' &&path!=='forgetpassword' &&<Header  />}
       <BrowserRouter>
       {
-            
-            // cookie['token']=='undefined'?
             <Routes>
+                <Route path="/" element={<Login />} />
                 <Route path="register" element={<Register />} />
-                <Route path="*" element={<Login />} />
-            {/* </Routes>: */}
-            {/* <Routes> */}
-                <Route path="addLocation" element={<AddLocation />} />
-                <Route path="editLocation/:id" element={<EditLocation />} />
+                <Route path="forgetpassword" element={<ForgetPassword />} />
                 <Route path="myaccount" element={<MyAccount />}/>
+                <Route path="myaccount/edit" element={<ChangeDetails />}/>
+                <Route path="myaccount/changepassword" element={<ChangePassword />}/>
+                <Route path="myaccount/destinationdetails" element={<DestinationDetails />}/>
+                <Route path="myaccount/destinationdetails/addLocation" element={<AddLocation />} />
+                <Route path="myaccount/destinationdetails/editLocation/:id" element={<EditLocation />} />
                 <Route path="main" element={<Main />}/>
                 <Route path="errorpage" element={<ErrorPage />}/>
                 <Route path="*" element={<NoPage />} />

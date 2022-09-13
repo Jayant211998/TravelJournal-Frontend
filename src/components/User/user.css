@@ -1,0 +1,103 @@
+.pageStyle{
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    padding: 70px 0 70px 0;
+    background-color: #F55A5A;
+}
+.formDivStyle{
+    justify-content: center;
+    display: flex;
+    height: 450px;
+    width:30%;
+    padding-top: 30px;
+    border-radius: 60px;
+    background-color: white;
+}
+.button{
+    width: 320px;
+    height: 40px;
+    /* border-radius: 60px; */
+    background-color: #F55A5A;
+    color: white;
+    font-size: 20px;
+    border: none;
+    margin-top: 15px;
+}
+.link{
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 8px;
+}
+a{
+    color:blue
+}
+.register-pageStyle{
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    padding: 40px 0 40px 0;
+    background-color: #F55A5A;
+}
+.register-formDivStyle{
+    justify-content: center;
+    display: flex;
+    height: 500px;
+    width:30%;
+    padding-top: 30px;
+    border-radius: 60px;
+    background-color: white;
+}
+.register-button{
+    width: 320px;
+    height: 40px;
+    /* border-radius: 60px; */
+    background-color: #F55A5A;
+    color: white;
+    font-size: 20px;
+    border: none;
+    margin-top: 5px;
+}
+.fp-pageStyle{
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    padding: 120px 0 120px 0;
+    background-color: #F55A5A;
+}
+.fp-formDivStyle{
+    justify-content: center;
+    display: flex;
+    height: 350px;
+    width:30%;
+    padding-top: 30px;
+    border-radius: 60px;
+    background-color: white;
+}
+.cp-pageStyle{
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    padding: 90px 0 95px 0;
+    background-color: #F55A5A;
+}
+.cp-formDivStyle{
+    justify-content: center;
+    display: flex;
+    height: 410px;
+    width:30%;
+    padding-top: 30px;
+    border-radius: 60px;
+    background-color: white;
+}
+.tab-disable{
+    font-size: 20px;
+    width: 40%;     
+    background-color:grey;
+    
+}
+.tab-active{
+    font-size: 20px;
+    width: 40%; 
+    
+}

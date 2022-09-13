@@ -6,25 +6,27 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
 export default function DialogBox(props){
+   
     return(
         <>
         <Dialog
         open={true}
+        fullWidth
         onClose={props.handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{props.header}</DialogTitle>
+        <DialogTitle id="alert-dialog-title"><b>{props.header}</b></DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="alert-dialog-description" style={{color:'black'}}>
            {props.text}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           
-          <Button onClick={(e)=>{props.handleClose(e)}} color="primary" autoFocus>
+          <button style={{backgroundColor:'gray',width:'15%',padding:'1%',borderRadius:'5px'}} onClick={(e)=>{props.handleClose(e)}} color="primary" autoFocus>
             Ok
-          </Button>
+          </button>
         </DialogActions>
       </Dialog>
    

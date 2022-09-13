@@ -1,7 +1,5 @@
 import React from 'react'
-import ArrowBackIosOutlinedIcon from '@material-ui/icons/ArrowBackIosOutlined';
 import {Menu,MenuItem} from '@material-ui/core'
-import { Link } from "@material-ui/core";
 import PersonSharpIcon from '@material-ui/icons/PersonSharp';
 import {useCookies} from 'react-cookie'
 import encrypt from '../../encrypt'
@@ -43,15 +41,12 @@ export default function Header(){
     }
     
     return(
-        <header className='header'>
-              
+        <header className='header'>           
             <div className="heading">
-            {window.location.pathname.split('/').pop() !=='main'&&
-            <Link href="/main"><ArrowBackIosOutlinedIcon style={{padding:'0',marginRight:'1rem',color:'white'}}/></Link>}
-               My Travel Journal
+               <a href='/main' style={{textDecoration:'none',color:'white'}}>My Travel Journal</a>
             </div>
             <div className='links'>
-                {(cookie['image']  && cookie["image"]!="undefined"?
+                {cookie['token']!=undefined && (cookie["image"]!="undefined" && cookie["image"]!=""?
                 <img src={cookie["image"]} onClick={(e)=>handleClick(e)} style={imgStyle}/>:
                 <PersonSharpIcon aria-controls="menu-appbar" 
                 aria-haspopup="true" onClick={(e)=>{handleClick(e)}}/>)}
@@ -67,7 +62,7 @@ export default function Header(){
                 open={menu}
                 onClose={(e)=>{handleClose(e,"close")}}
             >
-                <div style={{position:'fixed',top:'12%',left:'89%'}}>
+                <div style={{position:'fixed',top:'12%',left:'89%',backgroundColor:'white'}}>
                 <MenuItem  disabled style={{color:'black',fontWeight:'4px'}}>{encrypt[1].decrypt(cookie['name'])}</MenuItem>
                 <MenuItem onClick={(e)=>{handleClose(e,myaccount)}}>My Account</MenuItem>
                 <MenuItem onClick={(e)=>{handleClose(e,logout)}}>Logout</MenuItem>

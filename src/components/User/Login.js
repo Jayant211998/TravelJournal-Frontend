@@ -1,21 +1,23 @@
 import React from 'react'
-import Button from '@material-ui/core/Button';
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Input from "@material-ui/core/Input";
 import IconButton from "@material-ui/core/IconButton";
-import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import DialogBox from '../UI/DialogBox';
 import encrypt from '../../encrypt'
 import axios from 'axios'
 import {useCookies} from 'react-cookie'
+import './user.css';
+import Loading from '../UI/Loading';
+
 
 export default function Login(){
 const [text,setText] = React.useState('')
 const [open,setOpen] = React.useState(false); 
 const [header,setHeader] = React.useState("Invalid Input Given")
 const [cookie,setCookie] = useCookies(["username","auth","name"])
+const [loading,setLoading] = React.useState(false);
 const [formData,setFormData] = React.useState({
     auth:"",
     username:"",
@@ -41,35 +43,9 @@ const [formData,setFormData] = React.useState({
             [event.target.name]:event.target.value}
         }))
     }
-    const handlePassword=async()=>{
-      if(formData.auth===""){
-         setOpen(true);
-        setText("Please Select Authrization")
-      }
-      else if(formData.username===""){
-        setOpen(true);
-        setText("Please Enter Your Email ")
-      }
-      else{
-        const data={ auth:formData.auth,
-                     username:formData.username
-                  }
-        const forgetPassword = await axios.post(`${process.env.REACT_APP_SERVER}/forgetPassword`,{data});
-        if(forgetPassword.data.resp && forgetPassword.data.status){
-            setOpen(true);
-            setText("Check Email "+formData.username+"for Temporary Password Login With it and Change it from My Profile.");
-            setHeader("E-Mail Sent")
-          }
-        else{
-            setOpen(true);
-            setText(forgetPassword.data.message);
-            setHeader("Unable to send Mail.")
-        }
-      }
-      
-    }
-
-    const handleLogin=async()=>{
+    
+    const handleLogin=async(e)=>{
+      e.preventDefault();
       if(formData.auth===""){
         setOpen(true);
         setText("Please Select Authrization")
@@ -87,6 +63,7 @@ const [formData,setFormData] = React.useState({
         setText("If You want to Login as Admin then You Need to provide Key")
       }
       else{
+        setLoading(true);
       const data={ auth:formData.auth,
                    username:formData.username,
                    password:formData.password,
@@ -94,6 +71,7 @@ const [formData,setFormData] = React.useState({
                 }
                 
         const login = await axios.post(`${process.env.REACT_APP_SERVER}/login`,{data});
+        setLoading(false);
         if(login.data.status){
             setCookie('id',encrypt[0].encrypt(login.data.data.id));
             setCookie('auth',encrypt[0].encrypt(login.data.data.auth));
@@ -111,41 +89,38 @@ const [formData,setFormData] = React.useState({
         }
       }
     }
+    const inputStyle={
+            width:'300px',
+            height:'40px',
 
-    const formStyle = {margin:'8% auto',
-                       width:'50%',
-                       height:'100%',
-                       backgroundColor:'white'
-                    }
+    }
     return(
-    <>
-     <div style={formStyle}>
-     <h1>Login</h1><br/>
-     <form style={{textAlign:'left',marginLeft:'35%'}}>
-
+      <>
+      {!loading && <>
+    <div  className="pageStyle">
+     <div className="formDivStyle">
+     <div >
+     <h1 >Login</h1><br/>
         <input type="radio" id="admin" name="auth" value='admin' onChange={(e)=>{handleChange(e)}}/>
           <label htmlFor="admin">Admin</label>
           <input type="radio" id="user" name="auth" value='user' onChange={(e)=>{handleChange(e)}}/>
           <label htmlFor="user">User</label><br/><br/>
        
-        <InputLabel htmlFor="username">
-              Email        
-        </InputLabel>  
         <Input
           autoFocus
+          placeholder='Email'
           variant='outlined'
           margin="dense"
           id="username"
           name="username"
           value={formData.username}
           onChange={(event)=>{handleChange(event)}}
-          style={{width:'50%'}}
+          style={inputStyle}
         />      
-      <br/><br/><InputLabel htmlFor="password">
-              Password        
-        </InputLabel>
+      <br/><br/>
         <Input 
             autoFocus
+            placeholder='Password'
             variant='outlined'
             margin="dense"
             id="password"
@@ -153,7 +128,7 @@ const [formData,setFormData] = React.useState({
             type={viewPassword?"text":"password"}
             value={formData.password}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'50%'}}
+            style={inputStyle}
             endAdornment={
               <InputAdornment position="end">          
                 <IconButton
@@ -166,11 +141,9 @@ const [formData,setFormData] = React.useState({
         />
           <br/><br/>
            {formData.auth==='admin' && <>
-           <InputLabel htmlFor="key">
-              Key        
-            </InputLabel>
           <Input
             autoFocus
+            placeholder='Key'
             variant='outlined'
             margin="dense"
             id="key"
@@ -178,7 +151,7 @@ const [formData,setFormData] = React.useState({
             type={viewKey?"text":"password"}
             value={formData.key}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'50%'}}
+            style={inputStyle}
             endAdornment={
               <InputAdornment position="end">          
                 <IconButton
@@ -189,15 +162,19 @@ const [formData,setFormData] = React.useState({
               </InputAdornment>
             }
           /></>}
-          <Button style={{marginTop:'0',marginLeft:'24%'}} onClick={()=>{handlePassword();}}>Forget Password</Button><br/>
-           <Button style={{marginLeft:'7%'}} onClick={()=>{handleLogin(); }}>
-             Login
-            </Button>
-         <Button onClick={()=>{window.location.replace('/register')}}>Register</Button>
-     </form>
+           <button onClick={(e)=>{handleLogin(e);}} className="button"> Login </button><br/>
+            <p className="link">
+              <a href='/forgetpassword' >Forget Password</a>/
+              <a href='/register'>Register</a>
+            </p>
+          <br/>
      </div>
-     {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
+     </div>
 
+    </div>
+    {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
+      </>}
+      {loading && <Loading/>}      
     </>
     );
 }

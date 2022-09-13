@@ -1,23 +1,22 @@
 import React from 'react'
-import Button from '@material-ui/core/Button';
 import axios from 'axios'; 
-import PersonSharpIcon from '@material-ui/icons/PersonSharp';
 import DialogBox from '../UI/DialogBox';
 import Input from "@material-ui/core/Input";
 import { v4 as uuid } from 'uuid';
 import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import './user.css';
+import Loading from '../UI/Loading';
 
 
 export default function Register(){
-const imgStyle={height:"100px",
-                width:"100px",
-                borderRadius:"50%",
-                margin:'0% 7.5%',
-                border: '1px solid black' 
-              }
 
-
+const inputStyle={
+                  width:'300px',
+                  height:'40px',
+                  marginTop:'5px'
+                  
+                }
 const unique_id = uuid();
 const profileImg = React.useRef(null);
 const [profilePic,setProfilePic] = React.useState(null);
@@ -27,6 +26,7 @@ const [open1,setOpen1] = React.useState(false);
 const [header,setHeader] = React.useState("Invalid Input Given")
 const [userList, setUserList] = React.useState([]);
 const [adminList, setAdminList] = React.useState([]);
+const [loading,setLoading] = React.useState(false);
 const [formData,setFormData] = React.useState({
     id:unique_id.slice(0,8),
     auth:"",
@@ -71,9 +71,6 @@ const [formData,setFormData] = React.useState({
       getAllUser();
     },[]);
 
-    function handleImg(event){
-        profileImg.current.click();
-    }
     function handleChangeImg(e){
       setProfilePic(e.target.files[0]);
     }
@@ -112,6 +109,9 @@ const [formData,setFormData] = React.useState({
       }else if(!formData.username.match(validRegex)){
         setOpen(true);
         setText("Please Enter a Valid Email ")
+      }else  if(formData.name===""){
+        setOpen(true);
+        setText("Please Enter Your Name ")
       }
       else  if(formData.password===""){
         setOpen(true);
@@ -142,6 +142,7 @@ const [formData,setFormData] = React.useState({
         setText("This Username Already Exist As User");
       }
       else{
+        setLoading(true);
         let imgUrl = "";
         if(profilePic!==null){
           const imgRef =  ref(storage , `travelJournal/user/${formData.id}`);
@@ -158,6 +159,7 @@ const [formData,setFormData] = React.useState({
           image:imgUrl
         }
           const register = await axios.post(`${process.env.REACT_APP_SERVER}/register`,{data});
+          setLoading(false);
           if(register.data.status){
               setOpen1(true);
               setText(register.data.message)
@@ -171,21 +173,18 @@ const [formData,setFormData] = React.useState({
     }
     }
     return(<>
-        <div style={{margin:'2% auto',width:'60%'}}>
-        <h1>Register</h1><br/>
-        
-        {profilePic?<><img src={URL.createObjectURL(profilePic)} onClick={(e)=>handleImg(e)} style={imgStyle}/></>:
-        <><PersonSharpIcon aria-controls="menu-appbar" aria-haspopup="true" onClick={(e)=>handleImg(e)} style={imgStyle}/></>}
-        <br></br>
+      {!loading &&<>
+        <div className="register-pageStyle">
+        <div className="register-formDivStyle">
+          <div>
+        <h1 >Register</h1><br/>
         <input type="file" ref={profileImg} onChange={(e)=>{handleChangeImg(e)}} style={{display:'none'}} />
               
-        <form style={{textAlign:'left',marginLeft:'35%'}}>
         <input type="radio" id="admin" name="auth" value='admin' onChange={(e)=>{handleChange(e)}}/>
         <label htmlFor="admin">Admin</label>
         <input type="radio" id="user" name="auth" value='user' onChange={(e)=>{handleChange(e)}}/>
         <label htmlFor="user">User</label><br/><br/>
 
-        <label htmlFor="username">Email Id</label><br/>
         <Input
             autoFocus
             variant='outlined'
@@ -194,10 +193,10 @@ const [formData,setFormData] = React.useState({
             name="username"
             value={formData.username}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'50%'}}
+            style={inputStyle}
+            placeholder="Email"
           /><br/>
           
-           <label htmlFor="name">Name</label><br/>
           <Input
             autoFocus
             variant='outlined'
@@ -206,10 +205,11 @@ const [formData,setFormData] = React.useState({
             name="name"
             value={formData.name}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'50%'}}
+            style={inputStyle}
+            placeholder="Name"
+
           /><br/>
 
-          <label htmlFor="password">Password</label><br/>
           <Input
             autoFocus
             variant='outlined'
@@ -219,9 +219,10 @@ const [formData,setFormData] = React.useState({
             type="password"
             value={formData.password}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'50%'}}
+            style={inputStyle}
+            placeholder="Password"
+
           /><br/>
-          <label htmlFor="cmf_password">Confirm Password</label><br/>
           <Input
             autoFocus
             variant='outlined'
@@ -231,9 +232,11 @@ const [formData,setFormData] = React.useState({
             type="password"
             value={formData.cmf_password}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'50%'}}
+            style={inputStyle}
+            placeholder="Confirm Password"
+
           /><br/>
-          {formData.auth==='admin' && <><label htmlFor="key">Key</label><br/>
+          {formData.auth==='admin' && <>
           <Input
             autoFocus
             variant='outlined'
@@ -243,15 +246,23 @@ const [formData,setFormData] = React.useState({
             type="password"
             value={formData.key}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'50%'}}
+            style={inputStyle}
+            placeholder="Key"
           /><br/></>}
           <br/>
            
-     <Button onClick={(e)=>{handleRegister(e);}}>Register</Button>
-     </form>
+          <button onClick={(e)=>{handleRegister(e);} } className="register-button">Register</button><br/>
+          <p className="link">
+              Already have an account ? <a href='/'>Sign In</a>
+            </p>
+          <br/>
+     </div>
+     </div>
      </div>
      {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
      {open1 && <DialogBox text={text} handleClose={handleClose1} header={header}/>}
+      </>}
+      {loading && <Loading/>}
 
     </>);
 }

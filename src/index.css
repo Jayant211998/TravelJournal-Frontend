@@ -26,14 +26,12 @@ code {
 .heading{
   /* justify-content: space-between; */
   /* display: flex; */
-  /* background-color: black; */
   margin-bottom: 0;
 
 }
 .links{
   display: flex;
   justify-content: space-between;
-  /* background-color: black; */
   padding-top: 0.5rem;
   width:3rem;
   /* padding:0; */
@@ -42,10 +40,8 @@ code {
 }
 .link{
   font-size: 1.5rem;
-    /* background-color: black; */
-
   text-decoration: none;
-  margin:0;
+  margin:0; 
 }
 .loginImage{
   width:4rem;
@@ -59,47 +55,71 @@ code {
 .info{
   display: flex;
   width:100%;
+  min-height: 7%;
+
 }
 .image{
-  width:25%;
-  margin-right:5rem;
-  border-radius: 1rem;
+  width:100%;
+  margin-right:3rem;
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 3px 2px grey;
+  /* margin-top: 5%; */
+}
+.section{
+  display:block;
+  width:20%;
 }
 .details{
   width:60%;
+  margin-left: 3%;
+
 }
 .action{
-  margin-top: 5.5rem;
-  margin-left: 2rem;
+  margin-top: 0;
+  margin-left: auto;
   justify-content: space-between;
   display:flex;
   width: 4rem;
-  /* background-color: blue; */
 }
 .comp{
   display:flex;
   margin: 2rem; 
-  
-
+  background-color: #efdcff;
+  border-radius: 0.5rem;
+  padding:1%;
+  box-shadow: 3px 3px 4px 3px grey;
+}
+.place{
+  margin-bottom:0;
+  margin-top: 0;
 }
 .location{
   display:flex;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
-.place{
+.placeName{
+  margin-top: 0;
+}
 
-}
 .maps{
   margin-left: 1rem;
   margin-top: 1rem;
 }
 .date{
   display: flex;
+  margin: 0;
+
 }
 .start{
   margin-right: 1rem;
+  margin-top: 0;
+  /* margin-bottom: 0; */
 }
 .end{
-
+  margin-top: 0;
+  /* margin-bottom: 0; */
 }
 .form-button{
   border-radius: 100px;

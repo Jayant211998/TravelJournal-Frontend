@@ -51,7 +51,7 @@ export default function AddLocation(props){
       setOpen1(false);
       setText('')
       setHeader('Invalid Input Given')
-      window.location.replace('/myaccount');
+      window.location.replace('/myaccount/destinationdetails');
     }
 
     const handleChange=(event)=>{     
@@ -225,9 +225,9 @@ export default function AddLocation(props){
            <InputLabel > Images </InputLabel>
            <input type="file" multiple onChange={(e)=>handleFileChange(e)} />
            {imagesSelected}
-            <br></br>
+            <br/><br/>
             <Button 
-            style={{marginTop:'10px',marginRight:'10px',marginBottom:'10px'}}
+            style={{marginRight:'10px',marginBottom:'10px'}}
             variant="contained"
             color="primary"
             onClick={(e)=>{handleSubmit(e)}}
