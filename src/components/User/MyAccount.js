@@ -36,8 +36,10 @@ export default function MyAccount(){
             </div>
         }
             <div style={{marginTop:'3%'}}>
-            {cookie['image'] && cookie['image']!=="undefined"?<><img src={cookie['image']}  style={imgStyle}/></>:
-            <><PersonSharpIcon aria-controls="menu-appbar" aria-haspopup="true"  style={imgStyle}/></>}
+            {cookie['token']!=undefined && (cookie["image"]!="undefined" && cookie["image"]!=""?
+                <img src={cookie['image']}  style={imgStyle}/>:
+                <><PersonSharpIcon aria-controls="menu-appbar" aria-haspopup="true"  style={imgStyle}/></>
+            )}
             <table style={{marginLeft:'auto',marginRight:'auto'}}>
             <tr style={rowstyle}><td style={tablestyle}><h4 style={textStyle}>Name:</h4></td> <td style={tablestyle}><h4 >{encrypt[1].decrypt(cookie['name'])}</h4></td></tr>
             <tr style={rowstyle}><td style={tablestyle}><h4 style={textStyle}>UserName:</h4></td> <td style={tablestyle}><h4>{encrypt[1].decrypt(cookie['username'])}</h4></td></tr>
