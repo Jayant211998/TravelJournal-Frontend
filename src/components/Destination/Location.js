@@ -8,11 +8,17 @@ import DialogBox from '../UI/DialogBox';
 import { getStorage, ref } from "firebase/storage";
 import encrypt from '../../encrypt'
 import ShowMoreText from "react-show-more-text";
-import { Button } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons//LocationOn';
 import Visibility from "@material-ui/icons/Visibility";
+import './location.css';
 
-
+const reducer=(state,action)=>{
+    switch(action.type){
+      case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
+      case "OPEN1": return{open:false,open1:true,open2:false,text:action.value.text,header:action.value.header}
+      case "OPEN2": return{open:false,open1:false,open2:true,text:action.value.text,header:action.value.header}    
+    }
+}
 export default function Loaction(props){
     const buttonStyle={
         width:'100%',
@@ -20,26 +26,21 @@ export default function Loaction(props){
         marginTop:'2%',
         paddingLeft:'30%',
         borderRadius: '0.5rem',
-        boxShadow: '2px 2px 3px 2px grey'
-
+        boxShadow: '2px 2px 3px 2px grey',
     }
     const iconstyle = {
         marginLeft:'auto',
         marginRight:'0',
     }
     const storage = getStorage();
+    const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
     const [cookie,setCookie] = useCookies();
-    const [text,setText] = React.useState('')
-     const [open,setOpen] = React.useState(false)
-     const [header,setHeader] = React.useState("Invalid Input Given");
       function handleClose(e){
-        setOpen(false);
-        setText('')
-        setHeader('Invalid Input Given')
+        dispatch({type:"OPEN",value:{open:false,text:'',header:""}});
         props.deleteItem(props.info.id);
-        // window.location.reload(true);
       }
     const deleteDestination = async(id)=>{
+        
         if(window.confirm('Please Click OK to delete')){
              const token = cookie['token'];
             const deleteData = await axios.delete(`${process.env.REACT_APP_SERVER}/deleteData/${id}`,{
@@ -48,13 +49,9 @@ export default function Loaction(props){
                 }
             })
             if(deleteData.data.status){
-                setOpen(true);
-                setText(deleteData.data.message);
-                setHeader("Data Deleted");
+                dispatch({type:"OPEN",value:{open:true,text:deleteData.data.message,header:"Data Deleted"}});
             }else{
-                setOpen(true);
-                setText(deleteData.data.message);
-                setHeader("Not Able To Delete Data");
+                dispatch({type:"OPEN",value:{open:true,text:deleteData.data.message,header:"Not Able To Delete Data"}});
             }
         }     
     }
@@ -69,8 +66,8 @@ export default function Loaction(props){
                         height="200px" 
                         width="5px" 
                         />
-                <Button  style={buttonStyle} onClick={(event)=>{props.handleImagesShow(event,props.info.id)}}>View Images <Visibility style={iconstyle}/></Button>
-                <Button style={buttonStyle} href={props.info.link}>Map Location<LocationOnIcon style={iconstyle}/></Button>                
+                <button  style={buttonStyle} onClick={(event)=>{props.handleImagesShow(event,props.info.id)}}>View Images <Visibility style={iconstyle}/></button>
+                <button style={buttonStyle} href={props.info.link}>Map Location<LocationOnIcon style={iconstyle}/></button>                
                 </div>
                 <div className="details">
                     <div className="location">
@@ -102,7 +99,7 @@ export default function Loaction(props){
                 }
         </div>
         </div>
-        {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
+        {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
     
     </>
     )

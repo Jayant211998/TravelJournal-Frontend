@@ -6,7 +6,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
 export default function DialogBox(props){
-   
+   const btnStyle={
+      backgroundColor:'gray',
+      width:'15%',
+      padding:'1%',
+      borderRadius:'0.5rem'
+   }
     return(
         <>
         <Dialog
@@ -24,7 +29,7 @@ export default function DialogBox(props){
         </DialogContent>
         <DialogActions>
           
-          <button style={{backgroundColor:'gray',width:'15%',padding:'1%',borderRadius:'5px'}} onClick={(e)=>{props.handleClose(e)}} color="primary" autoFocus>
+          <button style={btnStyle} onClick={(e)=>{props.handleClose(e)}} color="primary" autoFocus>
             Ok
           </button>
         </DialogActions>

@@ -32,7 +32,50 @@
   from {
     transform: rotate(0deg);
   }
-  to {
+  to { 
     transform: rotate(360deg);
+  }
+}
+.margin-top0{
+  margin-top: 0%;
+}
+@media screen and (min-width: 0px){
+  .margin-top5{
+    margin-top: 15%;
+  }
+}
+@media screen and (min-width: 321px){
+  .margin-top5{
+    margin-top: 12.5%;
+  }
+}
+@media screen and (min-width: 376px){
+  .margin-top5{
+    margin-top: 14%;
+  }
+}
+@media screen and (min-width: 426px){
+  .margin-top5{
+    margin-top: 8%;
+  }
+}
+@media screen and (min-width: 769px){
+  .margin-top5{
+    margin-top: 6%;
+  }
+}
+@media screen and (min-width: 1025px){
+  .margin-top5{
+    margin-top: 5%;
+  }
+}
+@media screen and (min-width: 1039px){
+  .margin-top5{
+    margin-top: 4.7%;
+  }
+}
+@media screen and (min-width: 2561px){
+  .margin-top5{
+    margin-top: 1%;
   }
 }

@@ -8,16 +8,19 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import DialogBox from '../UI/DialogBox';
 import axios from 'axios';
 import {useCookies} from 'react-cookie'
-import './user.css';
+import './changepassword.css';
 import Loading from '../UI/Loading';
 
-
+const reducer=(state,action)=>{
+    switch(action.type){
+      case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
+      case "OPEN1": return{open:false,open1:true,open2:false,text:action.value.text,header:action.value.header}
+      case "OPEN2": return{open:false,open1:false,open2:true,text:action.value.text,header:action.value.header}    
+    }
+}
 export default function ChangePassword(){
-
-    const [cookie,setCookie] = useCookies();
-    const [text,setText] = React.useState('')
-    const [header,setHeader] = React.useState("Invalid Input Given")
-    const [open,setOpen] = React.useState(false); 
+    const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
+    const [cookie] = useCookies();
     const [viewPassword, setViewPassword] = React.useState(false);
     const [loading,setLoading] = React.useState(false);
     const [passData, setPassDate] = React.useState({
@@ -27,9 +30,6 @@ export default function ChangePassword(){
     })
     
     function handleClose(e){
-        setOpen(false);
-        setText('')
-        setHeader('Invalid Input Given')
         window.location.replace('/myaccount');
 
       }
@@ -46,23 +46,22 @@ export default function ChangePassword(){
             }
         })
     }
+    const handleBackPass=()=>{
+        window.location.replace('/myaccount');
+    }
     const handleSubmitPass=async(event)=>{
         const passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
         if(passData.password===""){
-            setOpen(true);
-            setText("Please Enter Current Password or OTP");
+            dispatch({type:"OPEN",value:{open:true,text:'Please Enter Current Password or OTP',header:"Invalid Input"}});
         } 
         else if(passData.newPassword===""){
-            setOpen(true);
-            setText("Please Enter New Password");
+            dispatch({type:"OPEN",value:{open:true,text:'Please Enter New Password',header:"Invalid Input"}});
         } 
         else if(passData.newPassword!==passData.cmfPassword){
-            setOpen(true);
-            setText("New Password and Confirm Password Does Not Match");
-        } 
+            dispatch({type:"OPEN",value:{open:true,text:'New Password and Confirm Password Does Not Match',header:"Invalid Input"}});
+            } 
         else if(!passData.newPassword.match(passw)){
-            setOpen(true);
-            setText("Password should contain 8 to 15 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character")
+            dispatch({type:"OPEN",value:{open:true,text:'Password should contain 8 to 15 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character',header:"Invalid Input"}});
           }
         else{ 
             setLoading(true);
@@ -83,22 +82,15 @@ export default function ChangePassword(){
                         updateData})
                      setLoading(false);
                     if(changePassword.data.status){
-                        setOpen(true);
-                        setText("Your Password Has Been Successfully Changed.");
-                        setHeader("Password Changed Successfully.")
+                        dispatch({type:"OPEN",value:{open:true,text:'Your Password Has Been Successfully Changed.',header:"Password Changed Successfully."}});
                     }else{
-                        setOpen(true);
-                        setText(changePassword.data.message);
-                        setHeader("Unable To Change Password.")
-
+                        dispatch({type:"OPEN",value:{open:true,text:changePassword.data.message,header:"Unable To Change Password."}});
                     }
                 }
             
             else{        
-                setLoading(false);      
-                setOpen(true);
-                setText(login.data.message);
-                setHeader("Unable to Change Password")
+                setLoading(false);     
+                dispatch({type:"OPEN",value:{open:true,text:login.data.message,header:"Unable To Change Password."}});
             }
             setPassDate({
                 password:"",
@@ -108,9 +100,11 @@ export default function ChangePassword(){
         }
     }
     const inputStyle={
-        width:'300px',
-        height:'40px',
-    }
+        width:'30rem',
+        height:'4rem',
+        fontSize:'1.5rem'
+
+}
     return(
         <>
         {!loading && <>
@@ -135,7 +129,7 @@ export default function ChangePassword(){
                 <IconButton
                     onClick = {(event) => handlePasswordView(event)}
                 >
-                    {viewPassword ? <Visibility/>:<VisibilityOff/>}
+                    {viewPassword ? <Visibility fontSize="large"/>:<VisibilityOff fontSize="large"/>}
                 </IconButton>
                 </InputAdornment>
             }
@@ -165,11 +159,12 @@ export default function ChangePassword(){
             onChange={(event)=>{handleChangePass(event)}}
             style={inputStyle}
             /><br/><br/>
-        <button className="button" onClick={(e)=>{handleSubmitPass(e)}}>Submit</button><br/>
+        <button className="cp-button" onClick={(e)=>{handleSubmitPass(e)}}>Submit</button><br/>
+        <button className="cp-button" onClick={(e)=>{handleBackPass(e)}}>Back</button><br/>
         </div>
         </div>
         </div>
-        {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
+        {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
         </>}
         {loading && <Loading/>}
 

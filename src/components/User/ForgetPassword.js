@@ -2,25 +2,25 @@ import React from 'react'
 import Input from "@material-ui/core/Input";
 import DialogBox from '../UI/DialogBox';
 import axios from 'axios'
-import {useCookies} from 'react-cookie'
-import './user.css';
+import './changepassword.css';
 import Loading from '../UI/Loading';
 
-
+const reducer=(state,action)=>{
+  switch(action.type){
+    case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
+    case "OPEN1": return{open:false,open1:true,open2:false,text:action.value.text,header:action.value.header}
+    case "OPEN2": return{open:false,open1:false,open2:true,text:action.value.text,header:action.value.header}    
+  }
+}
 export default function ForgetPassword(){
-const [text,setText] = React.useState('')
-const [open,setOpen] = React.useState(false); 
-const [header,setHeader] = React.useState("Invalid Input Given")
-const [cookie,setCookie] = useCookies(["username","auth","name"])
+
+const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
 const [loading,setLoading] = React.useState(false);
 const [formData,setFormData] = React.useState({
     auth:"",
     username:"",
     });
     function handleClose(e){
-      setOpen(false);
-      setText('')
-      setHeader('Invalid Input Given')
       window.location.replace('/');
 
     }
@@ -33,12 +33,10 @@ const [formData,setFormData] = React.useState({
     }
     const handlePassword=async()=>{
       if(formData.auth===""){
-        setOpen(true);
-        setText("Please Select Authrization")
+        dispatch({type:"OPEN",value:{open:true,text:'Please Select Authrization',header:"Invalid Input"}});
       }
       else if(formData.username===""){
-        setOpen(true);
-        setText("Please Enter Your Email ")
+        dispatch({type:"OPEN",value:{open:true,text:'Please Enter Your Email',header:"Invalid Input"}});
       }
       else{
         setLoading(true);
@@ -48,21 +46,18 @@ const [formData,setFormData] = React.useState({
         const forgetPassword = await axios.post(`${process.env.REACT_APP_SERVER}/forgetPassword`,{data});
         setLoading(false);
         if(forgetPassword.data.resp && forgetPassword.data.status){
-            setOpen(true);
-            setText("Check Email "+formData.username+"for Temporary Password Login With it and Change it from My Profile.");
-            setHeader("E-Mail Sent")
-          }
+          dispatch({type:"OPEN",value:{open:true,text:'Check Email "+formData.username+"for Temporary Password Login With it and Change it from My Profile.',header:"E-Mail Sent"}});
+        }
         else{
-            setOpen(true);
-            setText(forgetPassword.data.message);
-            setHeader("Unable to send Mail.")
+          dispatch({type:"OPEN",value:{open:true,text:'forgetPassword.data.message',header:"Unable to send Mail."}});
         }
       }
       
     }
     const inputStyle={
-            width:'300px',
-            height:'40px',
+            width:'30rem',
+            height:'4rem',
+            fontSize:'1.5rem'
 
     }
     return(
@@ -90,14 +85,14 @@ const [formData,setFormData] = React.useState({
         />      
       <br/><br/>
        
-           <button onClick={(e)=>{handlePassword(e);}} className="button"> Forget Password </button><br/>
+           <button onClick={(e)=>{handlePassword(e);}} className="cp-button"> Forget Password </button><br/>
             
           <br/>
      </div>
      </div>
 
     </div>
-    {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
+    {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
       </>}
       {loading && <Loading/>}
 

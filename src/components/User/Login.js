@@ -8,14 +8,26 @@ import DialogBox from '../UI/DialogBox';
 import encrypt from '../../encrypt'
 import axios from 'axios'
 import {useCookies} from 'react-cookie'
-import './user.css';
+import './login.css';
 import Loading from '../UI/Loading';
 
 
+const reducer=(state,action)=>{
+  switch(action.type){
+    case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
+    case "OPEN1": return{open:false,open1:true,open2:false,text:action.value.text,header:action.value.header}
+    case "OPEN2": return{open:false,open1:false,open2:true,text:action.value.text,header:action.value.header}    
+  }
+}
 export default function Login(){
-const [text,setText] = React.useState('')
-const [open,setOpen] = React.useState(false); 
-const [header,setHeader] = React.useState("Invalid Input Given")
+
+  React.useLayoutEffect(()=>{
+    if(cookie['token']){
+      window.location.replace('/main');
+    }
+  },[])
+const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
+
 const [cookie,setCookie] = useCookies(["username","auth","name"])
 const [loading,setLoading] = React.useState(false);
 const [formData,setFormData] = React.useState({
@@ -27,9 +39,7 @@ const [formData,setFormData] = React.useState({
     const [viewPassword, setViewPassword] = React.useState(false);
     const [viewKey, setViewKey] = React.useState(false);
     function handleClose(e){
-      setOpen(false);
-      setText('')
-      setHeader('Invalid Input Given')
+      dispatch({type:"OPEN",value:{open:false,text:'',header:""}});
     }
     const handlePasswordView = (event) =>{
       setViewPassword(!viewPassword);
@@ -47,20 +57,16 @@ const [formData,setFormData] = React.useState({
     const handleLogin=async(e)=>{
       e.preventDefault();
       if(formData.auth===""){
-        setOpen(true);
-        setText("Please Select Authrization")
+        dispatch({type:"OPEN",value:{open:true,text:'Please Select Authrization',header:"Invalid Input"}});
       }
       else  if(formData.username===""){
-        setOpen(true);
-        setText("Please Enter Your Email ")
+        dispatch({type:"OPEN",value:{open:true,text:'Please Enter Your Email',header:"Invalid Input"}});
       }
       else  if(formData.password===""){
-        setOpen(true);
-        setText("Please Enter Password")
+        dispatch({type:"OPEN",value:{open:true,text:'Please Enter Password',header:"Invalid Input"}});
       }
       else  if(formData.auth==="admin" && formData.key===""){
-        setOpen(true);
-        setText("If You want to Login as Admin then You Need to provide Key")
+        dispatch({type:"OPEN",value:{open:true,text:'If You want to Login as Admin then You Need to provide Key',header:"Invalid Input"}});
       }
       else{
         setLoading(true);
@@ -80,23 +86,20 @@ const [formData,setFormData] = React.useState({
             setCookie('token',(login.data.data.token));
             setCookie('image',(login.data.data.image));
             setCookie('key',encrypt[0].encrypt(login.data.data.key));
-            window.location.replace('/main')
+            window.location.reload();
+            
           } 
-        else{              
-            setOpen(true);
-            setText(login.data.message);
-            setHeader("Unable to Login")
+        else{
+          dispatch({type:"OPEN",value:{open:true,text:login.data.message,header:"Unable to Login"}});
         }
       }
     }
     const inputStyle={
-            width:'300px',
-            height:'40px',
-
-    }
-    return(
-      <>
-      {!loading && <>
+      width:'30rem',
+      height: '4rem',
+      fontSize: '1.5rem'
+      }
+    const loginForm = <>
     <div  className="pageStyle">
      <div className="formDivStyle">
      <div >
@@ -134,7 +137,7 @@ const [formData,setFormData] = React.useState({
                 <IconButton
                   onClick = {(event) => handlePasswordView(event)}
                 >
-                    {viewPassword ? <Visibility/>:<VisibilityOff/>}
+                    {!viewPassword ? <Visibility fontSize="large"/>:<VisibilityOff fontSize="large"/>}
                 </IconButton>
               </InputAdornment>
             }
@@ -153,27 +156,37 @@ const [formData,setFormData] = React.useState({
             onChange={(event)=>{handleChange(event)}}
             style={inputStyle}
             endAdornment={
-              <InputAdornment position="end">          
+              <InputAdornment position="end" >          
                 <IconButton
                   onClick = {(event) => handleKeyView(event)}
                 >
-                    {viewKey ? <Visibility/>:<VisibilityOff/>}
+                    {!viewKey ? <Visibility fontSize="large"/>:<VisibilityOff fontSize="large"/>}
                 </IconButton>
               </InputAdornment>
             }
-          /></>}
-           <button onClick={(e)=>{handleLogin(e);}} className="button"> Login </button><br/>
-            <p className="link">
-              <a href='/forgetpassword' >Forget Password</a>/
-              <a href='/register'>Register</a>
+          />
+          
+          </>}
+           <button onClick={(e)=>{handleLogin(e);}} className="login-button"> Login </button><br/>
+            <p className="links">
+              <a href='/forgetpassword'>Forget Password</a>&nbsp;/&nbsp;
+              <a href='/register' >  Register</a>
             </p>
           <br/>
      </div>
      </div>
 
     </div>
-    {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
-      </>}
+    {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
+      </>
+ 
+ 
+ 
+ 
+ 
+ return(
+      <>
+      {!loading && loginForm}
       {loading && <Loading/>}      
     </>
     );

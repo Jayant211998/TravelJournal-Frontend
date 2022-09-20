@@ -1,16 +1,15 @@
-.page{
+.content{
     justify-content: center;
     display:flex;
-    margin-top: 2%;
 }
 .table{
     margin-left:auto;
     margin-right:auto;    
 }
 
-.imgStyle1{
-    height:12rem;
-    width:12rem;
+.imgStyle{
+    height:15rem;
+    width:15rem;
     border-radius:50%;
     margin:0% 7.5%;
     border: .1rem solid black
@@ -24,37 +23,17 @@
     line-height: 0;
 }
 
-.my-details{
+.user-details{
     font-size: 1.4rem;
-    margin-top: 11%;
-
-}
-.mytab-button{
-    position: fixed;
-    width: 80%;
-    justify-content: center;
-    display: flex;
-    margin-left: 10%;
-    margin-top: 0%;
-    
-}
-
-.mytab-disable{
-    font-size: 2rem;
-    width: 50%;     
-    background-color:grey;
-    
-}
-.mytab-active{
-    font-size: 2rem;
-    width: 50%; 
-    
 }
 
 @media screen and (min-width: 0px){
     
-    
-    .user-button{
+    .user-details{
+        margin-top: 6%;
+
+    }
+    .details-button{
         width: 25rem;
         height: 4rem;
         background-color: #F55A5A;
@@ -68,8 +47,11 @@
 }
 @media screen and (min-width: 321px){
     
-    
-    .user-button{
+    .user-details{
+        margin-top: 6%;
+
+    }
+    .details-button{
         width: 25rem;
         height: 4rem;
         background-color: #F55A5A;
@@ -83,7 +65,11 @@
 }
 @media screen and (min-width: 426px){
     
-       .user-button{
+    .user-details{
+        margin-top: 4%;
+
+    }
+    .details-button{
         width: 28rem;
         height: 4rem;
         background-color: #F55A5A;

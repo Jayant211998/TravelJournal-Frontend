@@ -10,15 +10,25 @@ import { ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import DialogBox from '../UI/DialogBox';
 import Loading from '../UI/Loading';
 import encrypt from '../../encrypt'
+import './changelocation.css'
 
+const reducer=(state,action)=>{
+    switch(action.type){
+      case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
+      case "OPEN1": return{open:false,open1:true,open2:false,text:action.value.text,header:action.value.header}
+      case "OPEN2": return{open:false,open1:false,open2:true,text:action.value.text,header:action.value.header}    
+    }
+}
 
 export default function AddLocation(props){
-    const [cookie,setCookie] = useCookies();
+  React.useLayoutEffect(()=>{
+    if(encrypt[1].decrypt(cookie['auth'])==="user"){
+        dispatch({type:"OPEN2",value:{text:'You Are Not Autherizesd For This Page',header:'Unautherized User'}})
+    }
+  },[]);
+    const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
+    const [cookie] = useCookies();
     const unique_id = uuid();
-    const [text,setText] = React.useState('');
-    const [open,setOpen] = React.useState(false); 
-    const [open1,setOpen1] = React.useState(false); 
-    const [header,setHeader] = React.useState("Invalid Input Given") 
     const [disable,setDisable] = React.useState(true);  
     const [image,setImage] = React.useState(null);
     const [imageList,setImageList] = React.useState([]);
@@ -43,15 +53,14 @@ export default function AddLocation(props){
 
   
     function handleClose(e){
-      setOpen(false);
-      setText('')
-      setHeader('Invalid Input Given')
+      dispatch({type:"OPEN",value:{open:false,text:'',header:""}});
     }
     function handleClose1(e){
-      setOpen1(false);
-      setText('')
-      setHeader('Invalid Input Given')
       window.location.replace('/myaccount/destinationdetails');
+    }
+
+    function handleClose2(e){
+      window.location.replace('/');
     }
 
     const handleChange=(event)=>{     
@@ -79,32 +88,25 @@ export default function AddLocation(props){
 
    const handleSubmit = async(event) =>{
     if(formData.title===""){
-      setOpen(true)
-      setText("Please Enter Location Name")
+      dispatch({type:"OPEN",value:{open:true,text:'Please Enter Location Name',header:"Invalid Input"}});
     }
     else  if(formData.location===""){
-      setOpen(true)
-      setText("Please Enter City and Country Name")
+      dispatch({type:"OPEN",value:{open:true,text:'Please Enter City and Country Name',header:"Invalid Input"}});
     }
     else  if(formData.description===""){
-      setOpen(true)
-      setText("Please Enter Description")
+      dispatch({type:"OPEN",value:{open:true,text:'Please Enter Description',header:"Invalid Input"}});
     }
     else  if(formData.startDate===""){
-      setOpen(true)
-      setText("Please Enter Strating Date of Travel")
+      dispatch({type:"OPEN",value:{open:true,text:'Please Enter Strating Date of Travel',header:"Invalid Input"}});
     }
     else  if(formData.endDate===""){
-      setOpen(true)
-      setText("Please Enter Last date of travel")
-    }
+      dispatch({type:"OPEN",value:{open:true,text:'Please Enter Last date of travel',header:"Invalid Input"}});
+     }
     else  if(image===null){
-      setOpen(true)
-      setText("Please upload Profile Image For Destination.")
+      dispatch({type:"OPEN",value:{open:true,text:'Please upload Profile Image For Destination.',header:"Invalid Input"}});
     }
     else  if(formData.imageList===[]){
-      setOpen(true)
-      setText("Please upload Atleast One Image.")
+      dispatch({type:"OPEN",value:{open:true,text:'Please upload Atleast One Image.',header:"Invalid Input"}});
     }
     else 
     { 
@@ -134,22 +136,18 @@ export default function AddLocation(props){
         })
       setLoading(false);
       if(addData.data.status){
-        setOpen1(true);
-        setText(addData.data.message);
-        setHeader("Data Added");
+        dispatch({type:"OPEN1",value:{text:addData.data.message,header:"Data Added"}})
       }
       else{
-        setOpen1(true);
-        setText(addData.data.message);
-        setHeader("Unable to Add Data");
+        dispatch({type:"OPEN1",value:{text:addData.data.message,header:"Unable to Add Data"}})
       }
    }
   }
     return(
     <>
     {!loading && <>
-    <h1 style={{textAlign:'left',marginLeft:'10%'}}>Add New Destination</h1>
-    <form style={{textAlign:'left',marginLeft:'10%',marginTop:'2%'}} onSubmit={(e)=>{handleSubmit(e)}}>
+    <h1 className="edit-heading" >Add New Destination</h1>
+    <form className="edit-form" onSubmit={(e)=>{handleSubmit(e)}}>
     <TextField
             autoFocus
             variant='outlined'
@@ -162,7 +160,7 @@ export default function AddLocation(props){
               handleChange(event);
               
           }}
-            style={{width:'50%'}}
+            className="edit-input"
             multiline
           /><br/>
           <TextField
@@ -174,7 +172,7 @@ export default function AddLocation(props){
             label="Country"
             value={formData.location}
             onChange={(event)=>{handleChange(event);}}
-            style={{width:'50%'}}
+            className="edit-input"
             multiline
           /><br/>
           <TextField
@@ -186,7 +184,7 @@ export default function AddLocation(props){
             label="Description"
             value={formData.description}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'50%'}}
+            className="edit-input"
             multiline
           /><br/>
           <TextField
@@ -200,12 +198,12 @@ export default function AddLocation(props){
             value={formData.startDate}
             InputLabelProps={{shrink:true}}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'24%'}}
+            className="start-date"
             
           />
           <TextField
             autoFocus
-            style={{marginLeft:'2%',width:'24%'}}
+            className="end-date"
             type='date'
             variant='outlined'
             margin="dense"
@@ -215,7 +213,7 @@ export default function AddLocation(props){
             value={formData.endDate}
             InputLabelProps={{shrink:true}}
             onChange={(event)=>{handleChange(event)}}
-
+            style={{marginLeft:'2%'}}
           /><br/><br/>
           <InputLabel> Profile Image : </InputLabel>
           <input type="file" onChange={(e)=>handleImageChange(e)} />
@@ -227,15 +225,16 @@ export default function AddLocation(props){
            {imagesSelected}
             <br/><br/>
             <Button 
-            style={{marginRight:'10px',marginBottom:'10px'}}
+            className="submit-button"
             variant="contained"
             color="primary"
             onClick={(e)=>{handleSubmit(e)}}
             >Submit
             </Button>
     </form>
-    {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
-    {open1 && <DialogBox text={text} handleClose={handleClose1} header={header}/>}
+    {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
+    {state.open1 && <DialogBox text={state.text} handleClose={handleClose1} header={state.header}/>}
+    {state.open2 && <DialogBox text={state.text} handleClose={handleClose2} header={state.header}/>}
     </> }      
     {loading && <Loading/>}
     </>

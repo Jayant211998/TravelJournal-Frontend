@@ -4,7 +4,15 @@ import {useCookies} from 'react-cookie'
 import Location from './Location';
 import Images from '../UI/Images';
 import DialogBox from '../UI/DialogBox';
+import './destination.css'
 
+const reducer=(state,action)=>{
+    switch(action.type){
+      case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
+      case "OPEN1": return{open:false,open1:true,open2:false,text:action.value.text,header:action.value.header}
+      case "OPEN2": return{open:false,open1:false,open2:true,text:action.value.text,header:action.value.header}    
+    }
+}
 
 export default function Main(){ 
     const buttonStyle={
@@ -17,10 +25,8 @@ export default function Main(){
         left:'92%',
         top:'85%'
     }   
+    const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
     const [imageList,setImageList] = React.useState([]);
-    const [text,setText] = React.useState('');
-    const [header,setHeader] = React.useState("Invalid Input Given") 
-    const [open,setOpen] = React.useState(false); 
     const [data,setData]=React.useState([]);
     const [images,setImages] = React.useState(false);
     const [cookie,setCookie] = useCookies();
@@ -39,18 +45,14 @@ export default function Main(){
                 window.location.replace('/errorpage');
             } 
             else{
-                setOpen(true);
-                setText(getAllData.data.message);
-                setHeader("Unable To Get Your Destinations")
+                dispatch({type:"OPEN",value:{open:true,text:getAllData.data.message,header:"Unable To Get Your Destinations"}});
             }
         }
         getData();
     },[])
     function deleteItem(id){}
     function handleClose(e){
-        setOpen(false);
-        setText('')
-        setHeader('Invalid Input Given')
+        dispatch({type:"OPEN",value:{open:false,text:'',header:""}});
       }
     const handleImageHide = (event) =>{
         window.location.replace('/main');
@@ -76,9 +78,9 @@ export default function Main(){
         <>
         <main className='main'>
         {locationArr}
-        </main>
         {images && <Images  imageList={imageList} handleImageHide={handleImageHide}/>}
-        {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
+        {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
+        </main>
 
         </>
     )

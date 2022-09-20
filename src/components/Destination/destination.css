@@ -1,0 +1,28 @@
+.main{
+    text-align: left;
+    padding: 0.5rem;
+  
+}
+.dest-page{
+    padding-top: 2%;
+}
+.tab-button{
+    position: fixed;
+    width: 80%;
+    justify-content: center;
+    display: flex;
+    margin-left: 10%;
+    margin-top: 0%;
+}
+
+.tab-disable{
+    font-size: 2rem;
+    width: 50%;     
+    background-color:grey;
+    
+}
+.tab-active{
+    font-size: 2rem;
+    width: 50%; 
+    
+}

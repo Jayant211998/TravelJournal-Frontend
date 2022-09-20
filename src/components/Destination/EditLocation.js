@@ -6,29 +6,34 @@ import DialogBox from '../UI/DialogBox';
 import { useCookies } from 'react-cookie';
 import encrypt from '../../encrypt';
 import Loading from '../UI/Loading';
+import './changelocation.css'
 
-
+const reducer=(state,action)=>{
+  switch(action.type){
+    case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
+    case "OPEN1": return{open:false,open1:true,open2:false,text:action.value.text,header:action.value.header}
+    case "OPEN2": return{open:false,open1:false,open2:true,text:action.value.text,header:action.value.header}    
+  }
+}
 export default function EditLocation(props){
-  const [cookie,setCookie] = useCookies(); 
-
-  const [open1,setOpen1] = React.useState(false)
-  const [text,setText] = React.useState('')
-  const [open,setOpen] = React.useState(false)
-  const [header,setHeader] = React.useState("Invalid Input Given");
+  React.useLayoutEffect(()=>{
+    if(encrypt[1].decrypt(cookie['auth'])==="user"){
+      dispatch({type:"OPEN2",value:{text:'You Are Not Autherizesd For This Page',header:'Unautherized User'}})
+    }
+  },[]);
+  const [cookie] = useCookies(); 
+  const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
   const [loading,setLoading] = React.useState(false);
 
-
   function handleClose(e){
-    setOpen(false);
-    setText('')
-    setHeader('Invalid Input Given')
+    dispatch({type:"OPEN",value:{open:false,text:'',header:""}});
   }
-
   function handleClose1(e){
-    setOpen1(false);
-    setText('')
-    setHeader('Invalid Input Given');
     window.location.replace('/myaccount/destinationdetails');
+  }
+  
+  function handleClose2(e){
+    window.location.replace('/');
   }
    const id=(window.location.pathname.split('/').pop());
 
@@ -47,9 +52,7 @@ export default function EditLocation(props){
                     window.location.replace('/errorpage');
                 } 
             else{
-                setOpen(true);
-                setText(getDestination.data.message);
-                setHeader("Unable To Edit Destinations")
+              dispatch({type:"OPEN",value:{open:true,text:getDestination.data.message,header:"Unable To Edit Destinations"}});
             }
       }
       getData();
@@ -78,24 +81,19 @@ export default function EditLocation(props){
 
    const handleSubmit = async(event) =>{
     if(formData.title===""){
-      setOpen(true)
-      setText("Please Enter Location Name")
+      dispatch({type:"OPEN",value:{open:true,text:'Please Enter Location Name',header:"Invalid Input"}});
     }
     else  if(formData.location===""){
-      setOpen(true)
-      setText("Please Enter City and Country Name")
+      dispatch({type:"OPEN",value:{open:true,text:'Please Enter City and Country Name',header:"Invalid Input"}});
     }
     else  if(formData.description===""){
-      setOpen(true)
-      setText("Please Enter Description")
+      dispatch({type:"OPEN",value:{open:true,text:'Please Enter Description',header:"Invalid Input"}});
     }
     else  if(formData.startDate===""){
-      setOpen(true)
-      setText("Please Enter Strating Date of Travel")
+      dispatch({type:"OPEN",value:{open:true,text:'Please Enter Strating Date of Travel',header:"Invalid Input"}});
     }
     else  if(formData.endDate===""){
-      setOpen(true)
-      setText("Please Enter Last date of travel")
+      dispatch({type:"OPEN",value:{open:true,text:'Please Enter Last date of travel',header:"Invalid Input"}});
     }
     else {
       setLoading(true);
@@ -110,21 +108,17 @@ export default function EditLocation(props){
         })
         setLoading(false);
       if(upadateData.data.status){
-        setOpen1(true);
-        setText(upadateData.data.message)
-        setHeader("Data Updated")
+        dispatch({type:"OPEN1",value:{text:upadateData.data.message,header:"Data Updated"}});
       }else{
-        setOpen1(true);
-        setText(upadateData.data.message)
-        setHeader("Unable to Update Data")
+        dispatch({type:"OPEN1",value:{text:upadateData.data.message,header:"Unable to Update Data"}});
       }
     }
    }
     return(<>
     {!loading && <>
-    <h1 style={{textAlign:'left',marginLeft:'10%'}}>Edit Destination</h1>
+    <h1 className="edit-heading" >Edit Destination</h1>
 
-    <form style={{textAlign:'left',marginLeft:'10%',marginTop:'2%'}} onSubmit={(e)=>{handleSubmit(e)}}>
+    <form className="edit-form" onSubmit={(e)=>{handleSubmit(e)}}>
     <TextField
             autoFocus
             variant='outlined'
@@ -134,7 +128,7 @@ export default function EditLocation(props){
             label="Destination Name"
             value={formData.title}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'50%'}}
+            className="edit-input"
             multiline
           /><br/>
           <TextField
@@ -146,7 +140,7 @@ export default function EditLocation(props){
             label="City, Country"
             value={formData.location}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'50%'}}
+            className="edit-input"
             multiline
           /><br/>
           <TextField
@@ -158,7 +152,7 @@ export default function EditLocation(props){
             label="Description"
             value={formData.description}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'50%'}}
+            className="edit-input"
             multiline
           /><br/>
           <TextField
@@ -172,12 +166,12 @@ export default function EditLocation(props){
             value={formData.startDate}
             InputLabelProps={{shrink:true}}
             onChange={(event)=>{handleChange(event)}}
-            style={{width:'24%'}}
+            className="start-date"
 
           />
           <TextField
             autoFocus
-            style={{marginLeft:'2%',width:'24%'}}
+            className="end-date"
             type='date'
             variant='outlined'
             margin="dense"
@@ -187,20 +181,21 @@ export default function EditLocation(props){
             value={formData.endDate}
             InputLabelProps={{shrink:true}}
             onChange={(event)=>{handleChange(event)}}
-
+            style={{marginLeft:'2%'}}
           /><br></br>
           
             <br></br>
             <Button 
-            style={{marginTop:'10px',marginRight:'10px',marginBottom:'10px'}}
+            className="submit-button"
             variant="contained"
             color="primary"
             onClick={(e)=>{handleSubmit(e)}}
             >Submit
             </Button>
     </form>
-    {open && <DialogBox text={text} handleClose={handleClose} header={header}/>}
-    {open1 && <DialogBox text={text} handleClose={handleClose1} header={header}/>}
+    {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
+    {state.open1 && <DialogBox text={state.text} handleClose={handleClose1} header={state.header}/>}
+    {state.open2 && <DialogBox text={state.text} handleClose={handleClose2} header={state.header}/>}
     </>}
     {loading && <Loading/>}
     </>)

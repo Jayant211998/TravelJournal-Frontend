@@ -1,0 +1,23 @@
+.edit-heading{
+    text-align:left;
+    margin-left:10%;
+}
+.edit-form{
+    text-align:left;
+    margin-left:10%;
+    margin-top:2%;
+}
+.edit-input{
+    width: 50%;
+}
+.start-date{
+    width:24%
+}
+.end-date{
+    width:24%;
+    margin-left:2%
+}
+.submit-buuton{
+    margin-right:10px;
+    margin-bottom:10px
+}

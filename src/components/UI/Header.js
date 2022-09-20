@@ -1,21 +1,29 @@
-import React from 'react'
+import React from 'react';
 import {Menu,MenuItem} from '@material-ui/core'
 import PersonSharpIcon from '@material-ui/icons/PersonSharp';
-import {useCookies} from 'react-cookie'
-import encrypt from '../../encrypt'
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import {useCookies} from 'react-cookie';
+import encrypt from '../../encrypt';
+import './header.css';
 
 export default function Header(){
-    const imgStyle={height:"35px",
-                width:"35px",
+    const imgStyle={height:"3.5rem",
+                width:"3.5rem",
                 borderRadius:"50%",
-                margin:'0% 7.5%',
-                border: '1px solid black' 
+                border: '0.2rem solid white',
               }
+    const hoverStyle={
+                height:"4rem",
+              width:"4rem",
+              borderRadius:"50%",
+              border: '0.3rem solid white',
+              
+            }
 
     const [cookie,setCookie,removeCookie] = useCookies()
 
     const [menu,setmenu]=React.useState(false);
-
+    const [img,setImg] = React.useState(false); 
     const handleClick=(e)=>{
         setmenu(true)
     }
@@ -41,15 +49,30 @@ export default function Header(){
     }
     
     return(
-        <header className='header'>           
+        <header className='header' >           
             <div className="heading">
-               <a href='/main' style={{textDecoration:'none',color:'white'}}>My Travel Journal</a>
+                <div className="backButton">
+                <ArrowBackIosIcon fontSize="large" onClick={()=>{window.location.replace('/main')}} width="medium"/>
+                </div>
+               <a href='/main'>My Travel Journal</a>
             </div>
-            <div className='links'>
+            <div className='img'>
+            <div className='icon'>
                 {cookie['token']!=undefined && (cookie["image"]!="undefined" && cookie["image"]!=""?
-                <img src={cookie["image"]} onClick={(e)=>handleClick(e)} style={imgStyle}/>:
-                <PersonSharpIcon aria-controls="menu-appbar" 
-                aria-haspopup="true" onClick={(e)=>{handleClick(e)}}/>)}
+                <img src={cookie["image"]}
+                     onClick={(e)=>handleClick(e)}
+                     onMouseOver={()=>{setImg(true)}} 
+                     onMouseLeave={()=>{setImg(false)}} 
+                     style={img?hoverStyle:imgStyle}/>:
+                <PersonSharpIcon 
+                    aria-controls="menu-appbar" 
+                    fontSize="large" 
+                    onMouseOver={()=>{setImg(true)}}
+                    onMouseLeave={()=>{setImg(false)}} 
+                    style={img?hoverStyle:imgStyle}
+                    aria-haspopup="true"
+                    onClick={(e)=>{handleClick(e)}}/>)}
+            </div>
             </div>
             <Menu
                 id="simple-menu"
@@ -62,10 +85,10 @@ export default function Header(){
                 open={menu}
                 onClose={(e)=>{handleClose(e,"close")}}
             >
-                <div style={{position:'fixed',top:'12%',left:'89%',backgroundColor:'white'}}>
-                <MenuItem  disabled style={{color:'black',fontWeight:'4px'}}>{encrypt[1].decrypt(cookie['name'])}</MenuItem>
-                <MenuItem onClick={(e)=>{handleClose(e,myaccount)}}>My Account</MenuItem>
-                <MenuItem onClick={(e)=>{handleClose(e,logout)}}>Logout</MenuItem>
+                <div className="dropdown">
+                <MenuItem  disabled style={{fontSize:'1.5rem'}} className="dropdown-item">{encrypt[1].decrypt(cookie['name'])}</MenuItem>
+                <MenuItem onClick={(e)=>{handleClose(e,myaccount)}} style={{fontSize:'1.5rem'}}>My Account</MenuItem>
+                <MenuItem onClick={(e)=>{handleClose(e,logout)}} style={{fontSize:'1.5rem'}}>Logout</MenuItem>
                 </div>
             </Menu>
         </header>
