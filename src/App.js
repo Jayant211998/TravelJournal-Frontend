@@ -16,12 +16,12 @@ import ChangeDetails from './components/User/ChangeDetails';
 import ForgetPassword from './components/User/ForgetPassword'
 import {useCookies} from 'react-cookie'; 
 
+
+export const AppContext = React.createContext();
+
 function App() {
 
-  React.useEffect(() => {
-      window.addEventListener("resize", updateDimensions);
-      return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
+
   const [width, setWidth]   = useState(window.innerWidth);
   const [height, setHeight] = useState(window.innerHeight);
   const updateDimensions = () => {
@@ -31,11 +31,10 @@ function App() {
   const [cookie]  = useCookies();
   const path=(window.location.pathname.split('/').pop());
   const validPath = cookie['token'] && path && path!=='register' && path!=='changepassword' && path!=='forgetpassword'
-  const AppContext = React.createContext();
   return (
     <div className="App">      
       {validPath &&<Header />}
-      <AppContext.Provider value={{}}>
+      <AppContext.Provider value={{updateDimensions}}>
       <div className={validPath?"margin-top5":"margin-top0"}>
       <BrowserRouter >
       {

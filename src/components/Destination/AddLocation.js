@@ -1,5 +1,5 @@
-import React from 'react'
-import axios from 'axios'
+import React from 'react';
+import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +10,7 @@ import { ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import DialogBox from '../UI/DialogBox';
 import Loading from '../UI/Loading';
 import encrypt from '../../encrypt'
-import './changelocation.css'
+import './changelocation.css' 
 
 const reducer=(state,action)=>{
     switch(action.type){
@@ -48,7 +48,7 @@ export default function AddLocation(props){
     });
 
     const imagesSelected = imageList.map(img => {
-      return <p>{img.name}</p>
+      return <>{img.name+" , "}</>
     })
 
   
@@ -143,99 +143,119 @@ export default function AddLocation(props){
       }
    }
   }
+  const addLocation = <div className="edit-block">
+  <h1 className="edit-heading" >Add New Destination</h1>
+  <form className="edit-form" onSubmit={(e)=>{handleSubmit(e)}}>
+  <div className='edit-input'>
+    <TextField
+          autoFocus
+          variant='outlined'
+          margin="dense"
+          id="title"
+          name="title"
+          label="Destination Name"
+          style={{width: '100%'}}
+          InputProps={{ style: { fontSize: '1.5rem' } }}
+        InputLabelProps={{ style: { fontSize: '1.5rem' } }}
+        
+          value={formData.title}
+          onChange={(event)=>{
+            handleChange(event);
+            
+        }}
+          multiline
+        />
+        </div>
+        <br/>
+        <div className='edit-input'>
+        <TextField
+          autoFocus
+          variant='outlined'
+          margin="dense"
+          id="location"
+          name="location"
+          label="Country"
+          value={formData.location}
+          onChange={(event)=>{handleChange(event);}}
+          style={{width: '100%'}}
+          InputProps={{ style: { fontSize: '1.5rem' } }}
+           InputLabelProps={{ style: { fontSize: '1.5rem' } }}
+          multiline
+        /></div><br/>
+        <div className='edit-input'><TextField
+          autoFocus
+          variant='outlined'
+          margin="dense"
+          id="description"
+          name="description"
+          label="Description"
+          value={formData.description}
+          onChange={(event)=>{handleChange(event)}}
+          style={{width: '100%'}}
+          InputProps={{ style: { fontSize: '1.5rem' } }}
+        InputLabelProps={{ style: { fontSize: '1.5rem' } }}
+          multiline
+        /></div><br/>
+        <div className='editdate'>
+          <div className='start-date'><TextField
+          autoFocus
+          type='date'
+          variant='outlined'
+          margin="dense"
+          id="startDate"
+          name="startDate"
+          label="Start Date"
+          value={formData.startDate}
+          InputProps={{ style: { fontSize: '1.5rem' } }}
+          InputLabelProps={{ style: { fontSize: '1.5rem' },shrink:true }}
+          onChange={(event)=>{handleChange(event)}}
+          style={{width: '100%'}} 
+        />
+        </div>
+        <div className='end-date'>
+        <TextField
+          autoFocus
+          style={{width: '100%'}}
+          type='date'
+          variant='outlined'
+          margin="dense"
+          id="endDate"
+          name="endDate"
+          label="End Date"
+          value={formData.endDate}
+          InputProps={{ style: { fontSize: '1.5rem' } }}
+          InputLabelProps={{ style: { fontSize: '1.5rem' },shrink:true}}
+          onChange={(event)=>{handleChange(event)}}
+        />
+        </div></div>
+        <br/><br/>
+        <InputLabel> Profile Image : </InputLabel>
+        <input type="file" onChange={(e)=>handleImageChange(e)} />
+         <br/><br/>
+         <InputLabel > Images </InputLabel>
+         <input type="file" multiple onChange={(e)=>handleFileChange(e)} />
+         <div>
+         {imagesSelected}
+         </div>
+         <br/><br/>
+          <div className="submit-button">
+            <Button 
+           variant="contained"
+           color="primary"
+           style={{width:'100%',fontSize:'1.5rem'}}
+           
+           onClick={(e)=>{handleSubmit(e)}}
+           >Submit
+           </Button>
+           </div>
+  </form>
+  {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
+  {state.open1 && <DialogBox text={state.text} handleClose={handleClose1} header={state.header}/>}
+  {state.open2 && <DialogBox text={state.text} handleClose={handleClose2} header={state.header}/>}
+  </div>  
     return(
     <>
-    {!loading && <>
-    <h1 className="edit-heading" >Add New Destination</h1>
-    <form className="edit-form" onSubmit={(e)=>{handleSubmit(e)}}>
-    <TextField
-            autoFocus
-            variant='outlined'
-            margin="dense"
-            id="title"
-            name="title"
-            label="Destination Name"
-            value={formData.title}
-            onChange={(event)=>{
-              handleChange(event);
-              
-          }}
-            className="edit-input"
-            multiline
-          /><br/>
-          <TextField
-            autoFocus
-            variant='outlined'
-            margin="dense"
-            id="location"
-            name="location"
-            label="Country"
-            value={formData.location}
-            onChange={(event)=>{handleChange(event);}}
-            className="edit-input"
-            multiline
-          /><br/>
-          <TextField
-            autoFocus
-            variant='outlined'
-            margin="dense"
-            id="description"
-            name="description"
-            label="Description"
-            value={formData.description}
-            onChange={(event)=>{handleChange(event)}}
-            className="edit-input"
-            multiline
-          /><br/>
-          <TextField
-            autoFocus
-            type='date'
-            variant='outlined'
-            margin="dense"
-            id="startDate"
-            name="startDate"
-            label="Start Date"
-            value={formData.startDate}
-            InputLabelProps={{shrink:true}}
-            onChange={(event)=>{handleChange(event)}}
-            className="start-date"
-            
-          />
-          <TextField
-            autoFocus
-            className="end-date"
-            type='date'
-            variant='outlined'
-            margin="dense"
-            id="endDate"
-            name="endDate"
-            label="End Date"
-            value={formData.endDate}
-            InputLabelProps={{shrink:true}}
-            onChange={(event)=>{handleChange(event)}}
-            style={{marginLeft:'2%'}}
-          /><br/><br/>
-          <InputLabel> Profile Image : </InputLabel>
-          <input type="file" onChange={(e)=>handleImageChange(e)} />
-           <br></br>
-           <br></br>
-           
-           <InputLabel > Images </InputLabel>
-           <input type="file" multiple onChange={(e)=>handleFileChange(e)} />
-           {imagesSelected}
-            <br/><br/>
-            <Button 
-            className="submit-button"
-            variant="contained"
-            color="primary"
-            onClick={(e)=>{handleSubmit(e)}}
-            >Submit
-            </Button>
-    </form>
-    {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
-    {state.open1 && <DialogBox text={state.text} handleClose={handleClose1} header={state.header}/>}
-    {state.open2 && <DialogBox text={state.text} handleClose={handleClose2} header={state.header}/>}
-    </> }      
+    {!loading && addLocation}      
     {loading && <Loading/>}
     </>
     );

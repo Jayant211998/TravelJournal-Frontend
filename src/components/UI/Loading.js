@@ -3,6 +3,7 @@ import ReactLoading from 'react-loading'
 import './header.css'
 
 export default function Loading(){
+    const winWidth = window.innerWidth;
     createRoot(document.getElementById('loading')).render(
         <div
             className="loader"
@@ -10,8 +11,10 @@ export default function Loading(){
         <ReactLoading
         type="spinningBubbles"
         color="#F55A5A"
-        height={500}
-        width={250}
+        height={250}
+        width={125}
+        // left={winWidth<'425'?7:250}
+        // top={winWidth<'425'?5000:250}
       />
       </div>
       )

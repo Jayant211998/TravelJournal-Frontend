@@ -5,6 +5,7 @@ import Location from './Location';
 import Images from '../UI/Images';
 import DialogBox from '../UI/DialogBox';
 import './destination.css'
+import './main.css'
 
 const reducer=(state,action)=>{
     switch(action.type){

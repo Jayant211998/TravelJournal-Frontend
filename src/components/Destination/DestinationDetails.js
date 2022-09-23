@@ -9,7 +9,18 @@ import DialogBox from '../UI/DialogBox';
 import encrypt from '../../encrypt'
 import './destination.css'
 
+const buttonStyle={
+    borderRadius:'100%',
+    backgroundColor:'#F55A5A', 
+    height:'6rem',
+    color:'white', 
+    fontSize:'4rem', 
+    position:'fixed',
+    right:'3%',
+    bottom:'3%',
+    border:'none',
 
+}
 const reducer=(state,action)=>{
     switch(action.type){
       case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
@@ -27,16 +38,7 @@ export default function DestinationDetails(){
       },[])
     const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
     const [cookie] = useCookies();
-    const buttonStyle={
-        borderRadius:'100%',
-        backgroundColor:'#F55A5A', 
-        height:'60px', 
-        color:'white', 
-        fontSize:'40px', 
-        position:'fixed',
-        left:'92%',
-        top:'85%'
-    }   
+     
      
     const [imageList,setImageList] = React.useState([]);
     const [data,setData]=React.useState([]);
@@ -100,7 +102,12 @@ export default function DestinationDetails(){
         </div>
         <div className='dest-page'>
         {locationArr}
-        {encrypt[1].decrypt(cookie['auth'])==='admin' &&<Link to='addLocation'><Button style={buttonStyle}>+</Button></Link>}
+        {encrypt[1].decrypt(cookie['auth'])==='admin' &&
+            <Button style={buttonStyle} 
+            onClick={()=>{window.location.replace('/myaccount/destinationdetails/addLocation')}}>
+                +
+            </Button>
+        }
         {images && <Images imageList={imageList} handleImageHide={handleImageHide}/>}
         {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
         {state.open1 && <DialogBox text={state.text} handleClose={handleClose1} header={state.header}/>}

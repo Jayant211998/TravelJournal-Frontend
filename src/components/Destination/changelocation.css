@@ -1,23 +1,162 @@
-.edit-heading{
-    text-align:left;
-    margin-left:10%;
+@media screen and (min-width: 0px){
+    .edit-block{
+        font-size: 1.5rem;
+        justify-content:center;
+        display:block;
+    }
+    .edit-heading{
+        text-align:left;
+        margin-left:10%;
+    }
+    .edit-form{
+        text-align:left;
+        margin-top:2%;
+    }
+    .edit-input{
+        width: 100%;
+        font-size: 1.5rem;
+
+    }
+    .edit-date{
+        display:flex;
+    }
+    .start-date{
+        width:24%
+    }
+    .end-date{
+        width:24%;
+        margin-left:2%
+    }
+    .submit-buuton{
+        margin-right:10px;
+        margin-bottom:10px
+    }
 }
-.edit-form{
-    text-align:left;
-    margin-left:10%;
-    margin-top:2%;
+@media screen and (min-width: 0px){
+    .edit-block{
+    font-size: 1.5rem;
+    justify-content:center;
+    display:block;
+    }
+    .edit-heading{
+        text-align:left;
+        margin-left:10%;
+    }
+    .edit-form{
+        text-align:left;
+        margin-top:2%;
+    }
+    .edit-input{
+        width: 50%;
+    }
+    .edit-date{
+        display:flex;
+    }
+    .start-date{
+        width:24%
+    }
+    .end-date{
+        width:24%;
+        margin-left:2%
+    }
+    .submit-buuton{
+        margin-right:10px;
+        margin-bottom:10px
+    }
 }
-.edit-input{
-    width: 50%;
+@media screen and (min-width: 0px){
+    .edit-block{
+    font-size: 1.5rem;
+    justify-content:center;
+    display:block;
+    }
+    .edit-heading{
+        text-align:left;
+        margin-left:10%;
+    }
+    .edit-form{
+        text-align:left;
+        margin-top:2%;
+    }
+    .edit-input{
+        width: 50%;
+    }
+    .edit-date{
+        display:flex;
+    }
+    .start-date{
+        width:24%
+    }
+    .end-date{
+        width:24%;
+        margin-left:2%
+    }
+    .submit-buuton{
+        margin-right:10px;
+        margin-bottom:10px
+    }
 }
-.start-date{
-    width:24%
+@media screen and (min-width: 0px){
+    .edit-block{
+    font-size: 1.5rem;
+    justify-content:center;
+    display:block;
+    }
+    .edit-heading{
+        text-align:left;
+        margin-left:10%;
+    }
+    .edit-form{
+        text-align:left;
+        margin-top:2%;
+    }
+    .edit-input{
+        width: 50%;
+    }
+    .edit-date{
+        display:flex;
+    }
+    .start-date{
+        width:24%
+    }
+    .end-date{
+        width:24%;
+        margin-left:2%
+    }
+    .submit-buuton{
+        margin-right:10px;
+        margin-bottom:10px
+    }
 }
-.end-date{
-    width:24%;
-    margin-left:2%
-}
-.submit-buuton{
-    margin-right:10px;
-    margin-bottom:10px
+@media screen and (min-width: 0px){
+    .edit-block{
+    font-size: 1.5rem;
+    justify-content:center;
+    display:block;
+    }
+    .edit-heading{
+        text-align:left;
+        margin-left:10%;
+    }
+    .edit-form{
+        text-align:left;
+        margin-top:2%;
+    }
+    .edit-input{
+        width: 50%;
+    }
+    .edit-date{
+        display:flex;
+    }
+    .start-date{
+        width:24%
+    }
+    .end-date{
+        width:24%;
+        margin-left:2%
+    }
+    .submit-buuton{
+        margin-right:10px;
+        margin-bottom:10px
+    }
 }

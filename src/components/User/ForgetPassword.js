@@ -13,7 +13,12 @@ const reducer=(state,action)=>{
   }
 }
 export default function ForgetPassword(){
+  const inputStyle={
+    width:'28rem',
+    height:'4rem',
+    fontSize:'1.5rem'
 
+}
 const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
 const [loading,setLoading] = React.useState(false);
 const [formData,setFormData] = React.useState({
@@ -54,12 +59,7 @@ const [formData,setFormData] = React.useState({
       }
       
     }
-    const inputStyle={
-            width:'30rem',
-            height:'4rem',
-            fontSize:'1.5rem'
-
-    }
+    
     return(
       <>
       {!loading && <>

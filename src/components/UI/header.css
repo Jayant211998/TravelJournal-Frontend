@@ -1,4 +1,9 @@
 @media screen and (min-width: 0px){
+  .loader{
+    margin-left:30%;
+    margin-top:65%
+  }
+
   .header{
     background-color: #F55A5A;
     color: white;
@@ -46,6 +51,10 @@
   }
 }
 @media screen and (min-width: 321px){
+  .loader{
+    margin-left:35%;
+    margin-top:50%
+  }
   .header{
     background-color: #F55A5A;
     color: white;
@@ -93,6 +102,10 @@
   }
 }
 @media screen and (min-width: 376px){
+  .loader{
+    margin-left:35%;
+    margin-top:48%
+  }
   .header{
     background-color: #F55A5A;
     color: white;
@@ -139,6 +152,10 @@
  
 }
 @media screen and (min-width: 426px){
+  .loader{
+    margin-left:43%;
+    margin-top:25%
+  }
   .header{
     background-color: #F55A5A;
     color: white;
@@ -182,6 +199,10 @@
   }
  
 }@media screen and (min-width: 769px){
+  .loader{
+    margin-left:43%;
+    margin-top:20%
+  }
   .header{
     background-color: #F55A5A;
     color: white;
@@ -225,6 +246,10 @@
   }
  
 }@media screen and (min-width: 1025px){
+  .loader{
+    margin-left:43%;
+    margin-top:15%
+  }
   .header{
     background-color: #F55A5A;
     color: white;
@@ -268,6 +293,10 @@
   }
  
 }@media screen and (min-width: 1441px){
+  .loader{
+    margin-left:43%;
+    margin-top:15%
+  }
   .header{
     background-color: #F55A5A;
     color: white;
@@ -325,8 +354,4 @@
     margin-left: auto; 
 
   }
-  .loader{
-    margin-left:43%;
-    margin-top:10%
-  }  
-
+   

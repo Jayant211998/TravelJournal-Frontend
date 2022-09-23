@@ -1,19 +1,236 @@
-.info{
-    display: flex;
+@media screen and (min-width: 0px) {
+  .comp{
+    display:flex;
+    margin: 1rem 2rem; 
+    background-color: #efdcff;
+    border-radius: 0.5rem;
+    padding:1%;
+    box-shadow: .3rem .3rem .4rem .3rem grey;
+    font-size: 1.5rem;
+    justify-content: center;
+    width:85%;
+
+
+  }
+  .info{
+    display: block;
+    justify-content: center;
     width:100%;
     min-height: 7%;
   
   }
   .image{
-    width:100%;
-    margin-right:3rem;
+    width:80%;
+    margin:1rem 9%;
     border-radius: 0.5rem;
     box-shadow: .2rem .2rem .3rem .2rem grey;
-    /* margin-top: 5%; */
+
+  }
+  .buttondiv{
+    display: flex;
+  }
+  
+.buttonStyle span{
+  display: none;
+}
+  .buttonStyle{
+    width:45%;
+    background-color:#ffbb00;
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+    max-height:2.3rem;
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: .2rem .2rem .3rem .2rem grey;
+    font-size: 1.5rem;
+    justify-content: center;
+    text-align: center;
+    
+}
+  .section{
+    display:block;
+    justify-content: center;
+    width:100%;
+    padding-bottom: 0.5rem;
+  }
+  .details{
+    width:90%;
+    margin-left: 3%;
+    padding-bottom: 1.5rem;
+    justify-content: center;
+    display: block;
+
+  }
+  .place{
+    margin-bottom:0;
+    margin-top: 0;
+  }
+  .location{
+    display:flex;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    
+  }
+  .action{
+    margin-top: 1rem;
+    justify-content: center;
+    display:flex;
+    width: 100%;
+  }
+  .placeName{
+    margin-top: 0;
+    width:100%;
+    justify-content: center;
+    text-align: center;
+    font-size:1.6rem;
+    font-weight: 200px;
+  }
+  .maps{
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
+  .date{
+    display: flex;
+    margin: 0;
+      }
+  .start{
+    margin-right: 20%;
+    margin-top: 0;
+    width:35%;
+    margin-left: 7%;
+  }
+  .end{
+    margin-top: 0;
+    width:35%;
+
+  }
+}
+@media screen and (min-width: 376px) {
+  .comp{
+    display:flex;
+    margin: 1rem 2rem; 
+    background-color: #efdcff;
+    border-radius: 0.5rem;
+    padding:1%;
+    box-shadow: .3rem .3rem .4rem .3rem grey;
+    font-size: 1.5rem;
+    justify-content: center;
+    width:85%;
+
+
+  }
+  .info{
+    display: block;
+    justify-content: center;
+    width:100%;
+    min-height: 7%;
+  
+  }
+  .image{
+    width:80%;
+    margin:1rem 9%;
+    border-radius: 0.5rem;
+    box-shadow: .2rem .2rem .3rem .2rem grey;
+
+  }
+  .buttondiv{
+    display: flex;
+  }
+  
+.buttonStyle span{
+  display: none;
+}
+  .buttonStyle{
+    width:45%;
+    background-color:#ffbb00;
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+    max-height:2.3rem;
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: .2rem .2rem .3rem .2rem grey;
+    font-size: 1.5rem;
+    justify-content: center;
+    text-align: center;
+    
+}
+  .section{
+    display:block;
+    justify-content: center;
+    width:100%;
+    padding-bottom: 0.5rem;
+  }
+  .details{
+    width:90%;
+    margin-left: 3%;
+    padding-bottom: 1.5rem;
+    justify-content: center;
+    display: block;
+
+  }
+  .place{
+    margin-bottom:0;
+    margin-top: 0;
+  }
+  .location{
+    display:flex;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    
+  }
+  .action{
+    margin-top: 1rem;
+    justify-content: center;
+    display:flex;
+    width: 100%;
+  }
+  .placeName{
+    margin-top: 0;
+    width:100%;
+    justify-content: center;
+    text-align: center;
+    font-size:1.6rem;
+    font-weight: 200px;
+  }
+  .maps{
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
+  .date{
+    display: flex;
+    margin-left: 3rem;
+      }
+  .start{
+    margin-right: 20%;
+    margin-top: 0;
+    width:30%;
+    margin-left: 7%;
+  }
+  .end{
+    margin-top: 0;
+    width:30%;
+
+  }
+}
+
+@media screen and (min-width: 426px) {
+  .info{
+    display: flex;
+    width:100%;
+    min-height: 7%;
+  }
+  .image{
+    width:99%;
+    margin-left: 0;
+    border-radius: 0.5rem;
+    box-shadow: .2rem .2rem .3rem .2rem grey;
   }
   .section{
     display:block;
-    width:20%;
+    width:50%;
+    padding:0;
   }
   .details{
     width:60%;
@@ -21,11 +238,10 @@
   
   }
   .action{
-    margin-top: 0;
-    margin-left: auto;
-    justify-content: space-between;
+    margin-top: 1rem;
+    justify-content: center;
     display:flex;
-    width: 4rem;
+    width: 102.5%;
   }
   .comp{
     display:flex;
@@ -34,10 +250,13 @@
     border-radius: 0.5rem;
     padding:1%;
     box-shadow: .3rem .3rem .4rem .3rem grey;
+    font-size: 1.5rem;
+    width:90%;
+
   }
   .place{
     margin-bottom:0;
-    margin-top: 0;
+    margin-top: 1rem;
   }
   .location{
     display:flex;
@@ -55,15 +274,241 @@
   }
   .date{
     display: flex;
-    margin: 0;
+  margin-left:5rem ; 
   
   }
   .start{
-    margin-right: 1rem;
+    margin-right: 5rem;
     margin-top: 0;
+    width:30%;
     /* margin-bottom: 0; */
   }
   .end{
     margin-top: 0;
+    width:25%;
+  }
+.buttondiv{
+    display: block;
+  }
+  
+.buttonStyle span{
+  display:contents;
+}
+  .buttonStyle{
+      margin-left:0;
+        width:100%;
+        background-color:#ffbb00;
+        margin-top:2%;
+        min-height:3rem;
+        border-radius: 0.5rem;
+        border: none;
+        box-shadow: .2rem .2rem .3rem .2rem grey;
+        font-size: 1.7rem;
+        justify-content: center;
+        text-align: center;
+        padding-bottom: 0.5rem;
+        
+  }
+}@media screen and (min-width: 769px) {
+  
+  .comp{
+    display:flex;
+    margin: 2rem; 
+    background-color: #efdcff;
+    border-radius: 0.5rem;
+    padding:1%;
+    box-shadow: .3rem .3rem .4rem .3rem grey;
+    font-size: 1.7rem;
+  }
+  .info{
+    display: flex;
+    width:100%;
+    min-height: 7%; 
+  }
+  .details{
+    width:60%;
+    margin-left: 3%;
+  }
+  .place{
+    margin-bottom:0;
+    margin-top: 1rem;
+  }
+  .location{
+    display:flex;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .placeName{
+    margin-top: 0;
+  }
+  
+  .maps{
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
+  .date{
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    width:100%;
+  }
+  .start{
+    margin-right: 1rem;
+    margin-top: 0;
+    width:40%
     /* margin-bottom: 0; */
   }
+  .end{
+    margin-top: 0;
+    width:40%;
+  }
+  .section{
+    display:block;
+    width:30%;
+    justify-content: center;
+    margin:0;
+    padding:0;
+  }
+
+  .image{
+    width:100%;
+    margin-right:3rem;
+    max-height: 75%;
+    border-radius: 0.5rem;
+    box-shadow: .2rem .2rem .3rem .2rem grey;
+  }
+  
+  .action{
+    margin-left: 0;
+    padding: 0%;
+    margin-top: 0.8rem;
+    justify-content: center;
+    display:flex;
+    width: 102.5%;
+  }
+  
+  .buttondiv{
+    display: block;
+  }
+  
+.buttonStyle span{
+  display:contents;
+}
+  .buttonStyle{
+    margin-left:0;
+        width:100%;
+        background-color:#ffbb00;
+        margin-top:2%;
+        min-height:3rem;
+        border-radius: 0.5rem;
+        border: none;
+        box-shadow: .2rem .2rem .3rem .2rem grey;
+        font-size: 1.7rem;
+        justify-content: center;
+        text-align: center;
+        padding-bottom: 0.5rem;
+  }
+}
+@media screen and (min-width: 1025px) {
+  .info{
+    display: flex;
+    width:100%;
+    min-height: 7%;
+  }
+  .image{
+    width:100%;
+    margin-right:3rem;
+    max-height: 75%;
+    border-radius: 0.5rem;
+    box-shadow: .2rem .2rem .3rem .2rem grey;
+  }
+  .section{
+    display:block;
+    width:30%;
+  }
+  .details{
+    width:60%;
+    margin-left: 3%;
+  }
+  .action{
+    margin-top: 1rem;
+    justify-content: center;
+    display:flex;
+    width: 102.5%;
+  }
+  .comp{
+    display:flex;
+    margin: 2rem; 
+    background-color: #efdcff;
+    border-radius: 0.5rem;
+    padding:1%;
+    box-shadow: .3rem .3rem .4rem .3rem grey;
+    font-size: 2rem;
+  }
+  .place{
+    margin-bottom:0;
+    margin-top: 1rem;
+  }
+  .location{
+    display:flex;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .placeName{
+    margin-top: 0;
+  }
+  
+  .maps{
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
+  .date{
+    display: flex;
+    margin: auto;
+    justify-content: center;
+  
+  }
+  .start{
+    margin-top: 0;
+  }
+  .end{
+    margin-top: 0;
+  }
+  .buttondiv{
+    display: block;
+  }
+  
+.buttonStyle span{
+  display:contents;
+}
+
+  .buttonStyle{
+        width:100%;
+        background-color:#ffbb00;
+        margin-top:2%;
+        min-height:4rem;
+        border-radius: 0.5rem;
+        border: none;
+        box-shadow: .2rem .2rem .3rem .2rem grey;
+        font-size: 1.7rem;
+        justify-content: center;
+        text-align: center;
+        padding-bottom: 0.5rem;
+        margin-left: 0;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

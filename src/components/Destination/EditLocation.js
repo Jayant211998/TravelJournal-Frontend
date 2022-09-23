@@ -1,5 +1,5 @@
-import React from 'react'
-import axios from 'axios'
+import React from 'react';
+import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import DialogBox from '../UI/DialogBox';
@@ -114,89 +114,107 @@ export default function EditLocation(props){
       }
     }
    }
-    return(<>
-    {!loading && <>
-    <h1 className="edit-heading" >Edit Destination</h1>
+   const editLocation = <div className="edit-block">
+   <h1 className="edit-heading" >Edit Destination</h1>
 
-    <form className="edit-form" onSubmit={(e)=>{handleSubmit(e)}}>
-    <TextField
-            autoFocus
-            variant='outlined'
-            margin="dense"
-            id="title"
-            name="title"
-            label="Destination Name"
-            value={formData.title}
-            onChange={(event)=>{handleChange(event)}}
-            className="edit-input"
-            multiline
-          /><br/>
+   <form className="edit-form" onSubmit={(e)=>{handleSubmit(e)}}>
+      <div className='edit-input'>  
+      <TextField
+           autoFocus
+           variant='outlined'
+           margin="dense"
+           id="title"
+           name="title"
+           label="Destination Name"
+           value={formData.title}
+           onChange={(event)=>{handleChange(event)}}
+           style={{width: '100%'}}
+           InputProps={{ style: { fontSize: '1.5rem' } }}
+        InputLabelProps={{ style: { fontSize: '1.5rem' } }}
+        
+           multiline
+         /></div><br/>
+        <div className='edit-input'>
+           <TextField
+           autoFocus
+           variant='outlined'
+           margin="dense"
+           id="location"
+           name="location"
+           label="City, Country"
+           value={formData.location}
+           onChange={(event)=>{handleChange(event)}}
+           InputProps={{ style: { fontSize: '1.5rem' } }}
+        InputLabelProps={{ style: { fontSize: '1.5rem' } }}
+        
+           style={{width: '100%'}}
+           multiline
+         /></div><br/>
+         <div className='edit-input'><TextField
+           autoFocus
+           variant='outlined'
+           margin="dense"
+           id="description"
+           name="description"
+           label="Description"
+           value={formData.description}
+           InputProps={{ style: { fontSize: '1.5rem' } }}
+        InputLabelProps={{ style: { fontSize: '1.5rem' } }}
+        
+           onChange={(event)=>{handleChange(event)}}
+           style={{width: '100%'}}
+           multiline
+         /></div><br/>
+         <div className='edit-date'>
+         <div className='start-date'>
           <TextField
-            autoFocus
-            variant='outlined'
-            margin="dense"
-            id="location"
-            name="location"
-            label="City, Country"
-            value={formData.location}
-            onChange={(event)=>{handleChange(event)}}
-            className="edit-input"
-            multiline
-          /><br/>
-          <TextField
-            autoFocus
-            variant='outlined'
-            margin="dense"
-            id="description"
-            name="description"
-            label="Description"
-            value={formData.description}
-            onChange={(event)=>{handleChange(event)}}
-            className="edit-input"
-            multiline
-          /><br/>
-          <TextField
-            autoFocus
-            type='date'
-            variant='outlined'
-            margin="dense"
-            id="startDate"
-            name="startDate"
-            label="Start Date"
-            value={formData.startDate}
-            InputLabelProps={{shrink:true}}
-            onChange={(event)=>{handleChange(event)}}
-            className="start-date"
-
-          />
-          <TextField
-            autoFocus
-            className="end-date"
-            type='date'
-            variant='outlined'
-            margin="dense"
-            id="endDate"
-            name="endDate"
-            label="End Date"
-            value={formData.endDate}
-            InputLabelProps={{shrink:true}}
-            onChange={(event)=>{handleChange(event)}}
-            style={{marginLeft:'2%'}}
-          /><br></br>
-          
-            <br></br>
+           autoFocus
+           type='date'
+           variant='outlined'
+           margin="dense"
+           id="startDate"
+           name="startDate"
+           label="Start Date"
+           value={formData.startDate}
+           onChange={(event)=>{handleChange(event)}}
+           InputProps={{ style: { fontSize: '1.5rem' } }}
+          InputLabelProps={{ style: { fontSize: '1.5rem' },shrink:true }}
+        
+           style={{width: '100%'}}
+         /></div><div className='end-date'>
+         <TextField
+           autoFocus
+           style={{width: '100%'}}
+           type='date'
+           variant='outlined'
+           margin="dense"
+           id="endDate"
+           name="endDate"
+           label="End Date"
+           value={formData.endDate}
+           InputProps={{ style: { fontSize: '1.5rem' } }}
+           InputLabelProps={{ style: { fontSize: '1.5rem' },shrink:true }}
+           onChange={(event)=>{handleChange(event)}}
+         /></div></div><br/>
+           <br/>
+           <div className="submit-button">
             <Button 
-            className="submit-button"
-            variant="contained"
-            color="primary"
-            onClick={(e)=>{handleSubmit(e)}}
-            >Submit
-            </Button>
-    </form>
-    {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
-    {state.open1 && <DialogBox text={state.text} handleClose={handleClose1} header={state.header}/>}
-    {state.open2 && <DialogBox text={state.text} handleClose={handleClose2} header={state.header}/>}
-    </>}
+           variant="contained"
+           color="primary"
+           style={{width:'100%',fontSize:'1.5rem'}}
+           onClick={(e)=>{handleSubmit(e)}}
+           >Submit
+           </Button>
+           </div>
+   </form>
+   {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
+   {state.open1 && <DialogBox text={state.text} handleClose={handleClose1} header={state.header}/>}
+   {state.open2 && <DialogBox text={state.text} handleClose={handleClose2} header={state.header}/>}
+   </div>
+    return(
+    <>
+    {!loading && editLocation}
     {loading && <Loading/>}
-    </>)
+    </>
+    )
 }

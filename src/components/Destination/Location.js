@@ -20,18 +20,7 @@ const reducer=(state,action)=>{
     }
 }
 export default function Loaction(props){
-    const buttonStyle={
-        width:'100%',
-        backgroundColor:'#ffbb00',
-        marginTop:'2%',
-        paddingLeft:'30%',
-        borderRadius: '0.5rem',
-        boxShadow: '2px 2px 3px 2px grey',
-    }
-    const iconstyle = {
-        marginLeft:'auto',
-        marginRight:'0',
-    }
+   
     const storage = getStorage();
     const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
     const [cookie,setCookie] = useCookies();
@@ -63,41 +52,42 @@ export default function Loaction(props){
                 <img className="image" 
                         src={props.info.image} 
                         alt="img" 
-                        height="200px" 
-                        width="5px" 
                         />
-                <button  style={buttonStyle} onClick={(event)=>{props.handleImagesShow(event,props.info.id)}}>View Images <Visibility style={iconstyle}/></button>
-                <button style={buttonStyle} href={props.info.link}>Map Location<LocationOnIcon style={iconstyle}/></button>                
+                <div className="buttondiv">
+                    <button  className="buttonStyle" onClick={(event)=>{props.handleImagesShow(event,props.info.id)}}><span>View Images</span> <Visibility fontSize='large'/></button>
+                    <button className="buttonStyle" href={props.info.link}><span>Map Location</span><LocationOnIcon fontSize='large'/></button>                
+                </div>
+                {encrypt[1].decrypt(cookie['auth'])==='admin' && props.show &&
+                            <div className="action">  
+                                <button className="buttonStyle" onClick={()=>{window.location.replace('/myaccount/destinationdetails/editLocation/'+props.info.id)}}><EditIcon fontSize="large" style={{color:'black'}} /></button>
+                                <button className="buttonStyle" onClick={()=>{deleteDestination(props.info.id)}}><DeleteIcon fontSize="large" /></button>
+                            </div>
+                }
                 </div>
                 <div className="details">
                     <div className="location">
                         <p className="place"> <b>Country:</b>{" "+props.info.location}</p>
-                </div>
-                <div className="placeName"><h3>{props.info.title}</h3></div>
-                    <div className="date">
-                        <p className='start'><b>StartDate:</b>{" "+props.info.startDate}</p>
-                        <p className='end'><b>EndDate:</b>{" "+props.info.endDate}</p>
                     </div>
-                    <ShowMoreText
-                        lines={4}
-                        more="Show more"
-                        less="Show less"
-                        className="content-css"
-                        anchorClass="my-anchor-css-class"
-                        width={750}
-                        truncatedEndingComponent={"... "}
-                    >
-                        <p>{props.info.description}</p>
-                    </ShowMoreText>
+                    <div className="placeName"><h3>{props.info.title}</h3></div>
+                        <div className="date">
+                            <p className='start'><b>StartDate:</b>{" "+props.info.startDate}</p>
+                            <p className='end'><b>EndDate:</b>{" "+props.info.endDate}</p>
+                        </div>
+                        <ShowMoreText
+                            lines={4}
+                            more="Show more"
+                            less="Show less"
+                            className="content-css"
+                            anchorClass="my-anchor-css-class"
+                            width={750}
+                            truncatedEndingComponent={"... "}
+                        >
+                            <p>{props.info.description}</p>
+                        </ShowMoreText>
+                        
+                    </div>
                     
                 </div>
-                {encrypt[1].decrypt(cookie['auth'])==='admin' && props.show &&
-                <div className="action">  
-                    {<Link to={'editLocation/'+props.info.id}><EditIcon style={{color:'black'}} /></Link>}
-                          <DeleteIcon onClick={()=>{deleteDestination(props.info.id)}}/>
-                </div>
-                }
-        </div>
         </div>
         {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
     

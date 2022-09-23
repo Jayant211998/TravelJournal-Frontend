@@ -19,6 +19,11 @@ const reducer=(state,action)=>{
     }
 }
 export default function ChangePassword(){
+    const inputStyle={
+        width:'28rem',
+        height:'4rem',
+        fontSize:'1.5rem'
+    }
     const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
     const [cookie] = useCookies();
     const [viewPassword, setViewPassword] = React.useState(false);
@@ -31,7 +36,6 @@ export default function ChangePassword(){
     
     function handleClose(e){
         window.location.replace('/myaccount');
-
       }
 
     const handlePasswordView = (event) =>{
@@ -99,12 +103,7 @@ export default function ChangePassword(){
             })
         }
     }
-    const inputStyle={
-        width:'30rem',
-        height:'4rem',
-        fontSize:'1.5rem'
-
-}
+    
     return(
         <>
         {!loading && <>

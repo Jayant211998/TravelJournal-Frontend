@@ -12,6 +12,7 @@ import './login.css';
 import Loading from '../UI/Loading';
 
 
+
 const reducer=(state,action)=>{
   switch(action.type){
     case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
@@ -20,7 +21,11 @@ const reducer=(state,action)=>{
   }
 }
 export default function Login(){
-
+  const inputStyle={width:'28rem',
+                    height: '4rem',
+                    fontSize: '1.5rem'
+                  }
+                                                   
   React.useLayoutEffect(()=>{
     if(cookie['token']){
       window.location.replace('/main');
@@ -94,11 +99,6 @@ const [formData,setFormData] = React.useState({
         }
       }
     }
-    const inputStyle={
-      width:'30rem',
-      height: '4rem',
-      fontSize: '1.5rem'
-      }
     const loginForm = <>
     <div  className="pageStyle">
      <div className="formDivStyle">

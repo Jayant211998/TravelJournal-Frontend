@@ -19,7 +19,7 @@ const reducer=(state,action)=>{
 export default function Register(){
 
 const inputStyle={
-                  width:'30rem',
+                  width:'28rem',
                   height:'4rem',
                   marginTop:'0.5rem',
                   fontSize:'1.5rem'

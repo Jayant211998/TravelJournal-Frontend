@@ -24,11 +24,6 @@
     line-height: 0;
 }
 
-.my-details{
-    font-size: 1.4rem;
-    margin-top: 11%;
-
-}
 .mytab-button{
     position: fixed;
     width: 80%;
@@ -54,6 +49,11 @@
 @media screen and (min-width: 0px){
     
     
+.my-details{
+    font-size: 1.4rem;
+    margin-top: 11%;
+
+}
     .user-button{
         width: 25rem;
         height: 4rem;
@@ -69,6 +69,11 @@
 @media screen and (min-width: 321px){
     
     
+.my-details{
+    font-size: 1.4rem;
+    margin-top: 11%;
+
+}
     .user-button{
         width: 25rem;
         height: 4rem;
@@ -83,6 +88,11 @@
 }
 @media screen and (min-width: 426px){
     
+.my-details{
+    font-size: 1.4rem;
+    margin-top: 6%;
+
+}
        .user-button{
         width: 28rem;
         height: 4rem;
