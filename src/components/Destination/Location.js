@@ -1,11 +1,9 @@
 import React from 'react'
-import { Link } from "react-router-dom";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import axios from 'axios'
 import {useCookies} from 'react-cookie'
 import DialogBox from '../UI/DialogBox';
-import { getStorage, ref } from "firebase/storage";
 import encrypt from '../../encrypt'
 import ShowMoreText from "react-show-more-text";
 import LocationOnIcon from '@material-ui/icons//LocationOn';
@@ -20,10 +18,9 @@ const reducer=(state,action)=>{
     }
 }
 export default function Loaction(props){
-   
-    const storage = getStorage();
+    const [numLines,setNumLines]=React.useState(0);
     const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
-    const [cookie,setCookie] = useCookies();
+    const [cookie] = useCookies();
       function handleClose(e){
         dispatch({type:"OPEN",value:{open:false,text:'',header:""}});
         props.deleteItem(props.info.id);
@@ -44,6 +41,24 @@ export default function Loaction(props){
             }
         }     
     }
+    React.useEffect(()=>{
+        const winWidth = window.innerWidth;
+        if(winWidth<'426'){
+            setNumLines(4);
+        }
+        else if(winWidth>='426' && winWidth<='768'){
+            setNumLines(4);
+        } 
+        
+        else if(winWidth>'768'&& winWidth<='1024'){
+            setNumLines(8);
+        }
+        else if(winWidth>'1024'){
+            setNumLines(5);
+        }
+    },[])
+     
+
     return(
         <>
         <div className="comp" >
@@ -73,18 +88,20 @@ export default function Loaction(props){
                             <p className='start'><b>StartDate:</b>{" "+props.info.startDate}</p>
                             <p className='end'><b>EndDate:</b>{" "+props.info.endDate}</p>
                         </div>
+                        <div>
                         <ShowMoreText
-                            lines={4}
+                            lines={numLines}
+                            style={{width:'100%'}}
                             more="Show more"
                             less="Show less"
                             className="content-css"
                             anchorClass="my-anchor-css-class"
-                            width={750}
+                            width={window.innerWidth>'1024'?1000:550}
                             truncatedEndingComponent={"... "}
                         >
                             <p>{props.info.description}</p>
                         </ShowMoreText>
-                        
+                        </div>
                     </div>
                     
                 </div>

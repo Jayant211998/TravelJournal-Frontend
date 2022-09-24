@@ -199,9 +199,7 @@ export default function EditLocation(props){
            <br/>
            <div className="submit-button">
             <Button 
-           variant="contained"
-           color="primary"
-           style={{width:'100%',fontSize:'1.5rem'}}
+           style={{width:'100%',fontSize:'1.5rem',color:'white'}}   
            onClick={(e)=>{handleSubmit(e)}}
            >Submit
            </Button>

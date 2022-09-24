@@ -5,158 +5,213 @@
         display:block;
     }
     .edit-heading{
-        text-align:left;
-        margin-left:10%;
+        text-align:center;
+        font-size: 2.5rem;
     }
     .edit-form{
-        text-align:left;
-        margin-top:2%;
+        width:100%;
+        text-align:center;
+        justify-content:center;
+        display:block;
     }
     .edit-input{
-        width: 100%;
+        justify-content: center;
+        width: 80%;
+        margin-left: 10%;
+    }
+    .edit-date{
+        justify-content: center;
+        display:flex;
+    }
+    .start-date{
+        width:39%;
+    }
+    .end-date{
+        width:39%;
+        margin-left:2%;
+    }
+    .selected-img{
+        display:flex;
+        width:80%;
+        margin-left: 10%;
+        justify-content: center;
+        background-color: #F55A5A;
+        border-radius: 1rem;
+    }
+    .img-list{
+        font-size: 1.2rem;
+    }
+    .submit-button{
+        display:flex;
+        width:100%;
+        justify-content: center;
+        background-color: #F55A5A;
+    }
+}
+@media screen and (min-width: 426px){
+    .edit-block{
         font-size: 1.5rem;
+        justify-content:center;
+        display:block;
+    }
+    .edit-heading{
+        text-align:center;
+        font-size: 2.5rem;
+    }
+    .edit-form{
+        width:100%;
+        text-align:center;
+        justify-content:center;
+        display:block;
+    }
+    .edit-input{
+        justify-content: center;
+        width: 80%;
+        margin-left: 10%;
+    }
+    .edit-date{
+        justify-content: center;
+        display:flex;
+    }
+    .start-date{
+        width:39%;
+    }
+    .end-date{
+        width:39%;
+        margin-left:2%;
+    }
+    .selected-img{
+        display:flex;
+        width:20%;
+        margin-left: 10%;
+        justify-content: center;
+        background-color: #F55A5A;
+        border-radius: 0.5rem;
+    }
+    .img-list{
+        font-size: 1.2rem;
+    }
+    .submit-button{
+        display:flex;
+        width:20%;
+        justify-content: center;
+        border-radius: 0.5rem;
+        background-color: blue;
+        margin:0 auto 2rem;
 
     }
-    .edit-date{
-        display:flex;
-    }
-    .start-date{
-        width:24%
-    }
-    .end-date{
-        width:24%;
-        margin-left:2%
-    }
-    .submit-buuton{
-        margin-right:10px;
-        margin-bottom:10px
-    }
 }
-@media screen and (min-width: 0px){
+@media screen and (min-width: 769px){
     .edit-block{
-    font-size: 1.5rem;
-    justify-content:center;
-    display:block;
+        font-size: 1.5rem;
+        justify-content:center;
+        display:block;
     }
     .edit-heading{
         text-align:left;
-        margin-left:10%;
+        margin-left: 10%;
+        font-size: 3rem;
+        margin-top: 7%;
     }
     .edit-form{
-        text-align:left;
-        margin-top:2%;
+        width:100%;
+        text-align:center;
+        justify-content:center;
+        display:block;
     }
     .edit-input{
+        justify-content: center;
         width: 50%;
+        margin-left: 10%;
     }
     .edit-date{
+        justify-content: left;
         display:flex;
+        width:50%;
+        margin-left: 10%;
     }
     .start-date{
-        width:24%
+        width:49%;
     }
     .end-date{
-        width:24%;
-        margin-left:2%
+        width:49%;
+        margin-left:2%;
     }
-    .submit-buuton{
-        margin-right:10px;
-        margin-bottom:10px
+    .selected-img{
+        display:flex;
+        width:15%;
+        margin-left: 10%;
+        justify-content: center;
+        background-color: #F55A5A;
+        border-radius: 0.5rem;
+    }
+    .img-list{
+        font-size: 1.2rem;
+    }
+    .submit-button{
+        display:flex;
+        width:15%;
+        justify-content: center;
+        border-radius: 0.5rem;
+        background-color: blue;
+        margin:0 0 2rem 10%;
+
     }
 }
-@media screen and (min-width: 0px){
+@media screen and (min-width: 1025px){
     .edit-block{
-    font-size: 1.5rem;
-    justify-content:center;
-    display:block;
+        font-size: 1.5rem;
+        justify-content:center;
+        display:block;
     }
     .edit-heading{
         text-align:left;
-        margin-left:10%;
+        margin-left: 10%;
+        font-size: 3.5rem;
+        margin-top: 5%;
     }
     .edit-form{
-        text-align:left;
-        margin-top:2%;
+        width:100%;
+        text-align:center;
+        justify-content:center;
+        display:block;
     }
     .edit-input{
+        justify-content: center;
         width: 50%;
+        margin-left: 10%;
     }
     .edit-date{
+        justify-content: left;
         display:flex;
+        width:50%;
+        margin-left: 10%;
     }
     .start-date{
-        width:24%
+        width:49%;
     }
     .end-date{
-        width:24%;
-        margin-left:2%
+        width:49%;
+        margin-left:2%;
     }
-    .submit-buuton{
-        margin-right:10px;
-        margin-bottom:10px
-    }
-}
-@media screen and (min-width: 0px){
-    .edit-block{
-    font-size: 1.5rem;
-    justify-content:center;
-    display:block;
-    }
-    .edit-heading{
-        text-align:left;
-        margin-left:10%;
-    }
-    .edit-form{
-        text-align:left;
-        margin-top:2%;
-    }
-    .edit-input{
-        width: 50%;
-    }
-    .edit-date{
+    .selected-img{
         display:flex;
+        width:15%;
+        margin-left: 10%;
+        justify-content: center;
+        background-color: #F55A5A;
+        border-radius: 0.5rem;
     }
-    .start-date{
-        width:24%
+    .img-list{
+        font-size: 1.2rem;
     }
-    .end-date{
-        width:24%;
-        margin-left:2%
-    }
-    .submit-buuton{
-        margin-right:10px;
-        margin-bottom:10px
-    }
-}
-@media screen and (min-width: 0px){
-    .edit-block{
-    font-size: 1.5rem;
-    justify-content:center;
-    display:block;
-    }
-    .edit-heading{
-        text-align:left;
-        margin-left:10%;
-    }
-    .edit-form{
-        text-align:left;
-        margin-top:2%;
-    }
-    .edit-input{
-        width: 50%;
-    }
-    .edit-date{
+    .submit-button{
         display:flex;
-    }
-    .start-date{
-        width:24%
-    }
-    .end-date{
-        width:24%;
-        margin-left:2%
-    }
-    .submit-buuton{
-        margin-right:10px;
-        margin-bottom:10px
+        width:15%;
+        justify-content: center;
+        border-radius: 0.5rem;
+        background-color: blue;
+        margin:0 0 2rem 10%;
+
     }
 }

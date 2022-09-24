@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
-import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { useCookies } from 'react-cookie';
@@ -26,6 +25,8 @@ export default function AddLocation(props){
         dispatch({type:"OPEN2",value:{text:'You Are Not Autherizesd For This Page',header:'Unautherized User'}})
     }
   },[]);
+    const images = React.useRef();
+    const profile = React.useRef();
     const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
     const [cookie] = useCookies();
     const unique_id = uuid();
@@ -50,7 +51,7 @@ export default function AddLocation(props){
     const imagesSelected = imageList.map(img => {
       return <>{img.name+" , "}</>
     })
-
+    const profileImg = <>{image?image.name:""}</>
   
     function handleClose(e){
       dispatch({type:"OPEN",value:{open:false,text:'',header:""}});
@@ -156,12 +157,10 @@ export default function AddLocation(props){
           label="Destination Name"
           style={{width: '100%'}}
           InputProps={{ style: { fontSize: '1.5rem' } }}
-        InputLabelProps={{ style: { fontSize: '1.5rem' } }}
-        
+          InputLabelProps={{ style: { fontSize: '1.5rem' } }}  
           value={formData.title}
           onChange={(event)=>{
-            handleChange(event);
-            
+            handleChange(event);    
         }}
           multiline
         />
@@ -193,24 +192,24 @@ export default function AddLocation(props){
           onChange={(event)=>{handleChange(event)}}
           style={{width: '100%'}}
           InputProps={{ style: { fontSize: '1.5rem' } }}
-        InputLabelProps={{ style: { fontSize: '1.5rem' } }}
+          InputLabelProps={{ style: { fontSize: '1.5rem' } }}
           multiline
         /></div><br/>
-        <div className='editdate'>
+        <div className='edit-date'>
           <div className='start-date'><TextField
-          autoFocus
-          type='date'
-          variant='outlined'
-          margin="dense"
-          id="startDate"
-          name="startDate"
-          label="Start Date"
-          value={formData.startDate}
-          InputProps={{ style: { fontSize: '1.5rem' } }}
-          InputLabelProps={{ style: { fontSize: '1.5rem' },shrink:true }}
-          onChange={(event)=>{handleChange(event)}}
-          style={{width: '100%'}} 
-        />
+            autoFocus
+            type='date'
+            variant='outlined'
+            margin="dense"
+            id="startDate"
+            name="startDate"
+            label="Start Date"
+            value={formData.startDate}
+            InputProps={{ style: { fontSize: '1.5rem' } }}
+            InputLabelProps={{ style: { fontSize: '1.5rem' },shrink:true }}
+            onChange={(event)=>{handleChange(event)}}
+            style={{width: '100%'}} 
+          />
         </div>
         <div className='end-date'>
         <TextField
@@ -229,21 +228,25 @@ export default function AddLocation(props){
         />
         </div></div>
         <br/><br/>
-        <InputLabel> Profile Image : </InputLabel>
-        <input type="file" onChange={(e)=>handleImageChange(e)} />
-         <br/><br/>
-         <InputLabel > Images </InputLabel>
-         <input type="file" multiple onChange={(e)=>handleFileChange(e)} />
-         <div>
+        <div className='selected-img'>
+          <Button style={{width:'100%',fontSize:'1.4rem',color:'white'}} onClick={(e)=>{profile.current.click()}}>Profile Image</Button>
+        </div>
+        <input type="file" ref={profile} style={{display:'none'}} onChange={(e)=>handleImageChange(e)} />
+        <div className="img-list">
+         {profileImg}
+         </div>
+        <br/><br/>
+        <div className='selected-img'>
+          <Button style={{width:'100%',fontSize:'1.4rem',color:'white'}} onClick={(e)=>{images.current.click()}}>Select Images</Button>
+        </div> 
+        <input type="file" multiple ref={images} style={{display:'none'}} onChange={(e)=>handleFileChange(e)} />
+         <div className="img-list">
          {imagesSelected}
          </div>
          <br/><br/>
           <div className="submit-button">
             <Button 
-           variant="contained"
-           color="primary"
-           style={{width:'100%',fontSize:'1.5rem'}}
-           
+           style={{width:'100%',fontSize:'1.5rem',color:'white'}}   
            onClick={(e)=>{handleSubmit(e)}}
            >Submit
            </Button>
