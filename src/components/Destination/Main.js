@@ -31,6 +31,18 @@ export default function Main(){
     const [data,setData]=React.useState([]);
     const [images,setImages] = React.useState(false);
     const [cookie,setCookie] = useCookies();
+    React.useLayoutEffect(()=>{
+        const checkBackend=async()=>{
+            const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
+            if(!res){
+              throw new Error('There Is Some Server Issue. Please try After Some Time.');
+            }
+        }
+        checkBackend()
+        .catch((error)=>{
+          dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
+        })
+      },[])
     React.useEffect(()=>{
         const getData = async()=>{
             const token = cookie['token'];
@@ -56,7 +68,8 @@ export default function Main(){
         dispatch({type:"OPEN",value:{open:false,text:'',header:""}});
       }
     const handleImageHide = (event) =>{
-        window.location.replace('/main');
+        setImages(false);
+        // window.location.replace('/main');
     }
     const handleImagesShow=async(event,id)=>{
         const token = cookie['token'];
@@ -78,7 +91,7 @@ export default function Main(){
     return(
         <>
         <main className='main'>
-        {locationArr}
+        {!images && locationArr}
         {images && <Images  imageList={imageList} handleImageHide={handleImageHide}/>}
         {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
         </main>

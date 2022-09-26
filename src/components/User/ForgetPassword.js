@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
 import Input from "@material-ui/core/Input";
 import DialogBox from '../UI/DialogBox';
-import axios from 'axios'
+import axios from 'axios';
 import './changepassword.css';
 import Loading from '../UI/Loading';
+import {useCookies} from 'react-cookie';
 
 const reducer=(state,action)=>{
   switch(action.type){
@@ -19,6 +20,24 @@ export default function ForgetPassword(){
     fontSize:'1.5rem'
 
 }
+React.useLayoutEffect(()=>{
+  const checkBackend=async()=>{
+      const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
+      if(!res){
+        throw new Error('There Is Some Server Issue. Please try After Some Time.');
+      }
+  }
+  checkBackend()
+  .then(()=>{
+    if(cookie['token']){
+      window.location.replace('/main');
+    }
+  })
+  .catch((error)=>{
+    dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
+  })
+},[])
+const [cookie,setCookie] = useCookies(["username","auth","name"])
 const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
 const [loading,setLoading] = React.useState(false);
 const [formData,setFormData] = React.useState({
@@ -59,40 +78,39 @@ const [formData,setFormData] = React.useState({
       }
       
     }
-    
+    const forgetPasswordForm = <div  className="fp-pageStyle">
+    <div className="fp-formDivStyle">
+    <div >
+    <h1 >Forget Password</h1><br/>
+       <input type="radio" id="admin" name="auth" value='admin' onChange={(e)=>{handleChange(e)}}/>
+         <label htmlFor="admin">Admin</label>
+         <input type="radio" id="user" name="auth" value='user' onChange={(e)=>{handleChange(e)}}/>
+         <label htmlFor="user">User</label><br/><br/>
+      
+       <Input
+         autoFocus
+         placeholder='Email'
+         variant='outlined'
+         margin="dense"
+         id="username"
+         name="username"
+         value={formData.username}
+         onChange={(event)=>{handleChange(event)}}
+         style={inputStyle}
+       />      
+     <br/><br/>
+      
+          <button onClick={(e)=>{handlePassword(e);}} className="cp-button"> Forget Password </button><br/>
+           
+         <br/>
+    </div>
+    </div>
+   </div>
+
     return(
       <>
-      {!loading && <>
-    <div  className="fp-pageStyle">
-     <div className="fp-formDivStyle">
-     <div >
-     <h1 >Forget Password</h1><br/>
-        <input type="radio" id="admin" name="auth" value='admin' onChange={(e)=>{handleChange(e)}}/>
-          <label htmlFor="admin">Admin</label>
-          <input type="radio" id="user" name="auth" value='user' onChange={(e)=>{handleChange(e)}}/>
-          <label htmlFor="user">User</label><br/><br/>
-       
-        <Input
-          autoFocus
-          placeholder='Email'
-          variant='outlined'
-          margin="dense"
-          id="username"
-          name="username"
-          value={formData.username}
-          onChange={(event)=>{handleChange(event)}}
-          style={inputStyle}
-        />      
-      <br/><br/>
-       
-           <button onClick={(e)=>{handlePassword(e);}} className="cp-button"> Forget Password </button><br/>
-            
-          <br/>
-     </div>
-     </div>
-
-    </div>
-    {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
+      {!loading && <>{forgetPasswordForm}
+       {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
       </>}
       {loading && <Loading/>}
 

@@ -10,8 +10,10 @@ export default function DialogBox(props){
       backgroundColor:'gray',
       width:'15%',
       padding:'1%',
-      borderRadius:'0.5rem'
-   }
+      borderRadius:'0.5rem',
+      color:'black',
+      fontSize:'1.5rem'
+    }
     return(
         <>
         <Dialog
@@ -21,9 +23,9 @@ export default function DialogBox(props){
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title"><b>{props.header}</b></DialogTitle>
+        <DialogTitle id="alert-dialog-title" style={{fontSize:'5rem'}}><b style={{fontSize:'2.3rem'}}>{props.header}</b></DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description" style={{color:'black'}}>
+          <DialogContentText id="alert-dialog-description" style={{color:'black',fontSize:'1.9rem'}}>
            {props.text}
           </DialogContentText>
         </DialogContent>

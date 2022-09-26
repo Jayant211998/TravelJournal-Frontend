@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import encrypt from '../../encrypt';
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Input from "@material-ui/core/Input";
@@ -7,7 +7,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import DialogBox from '../UI/DialogBox';
 import axios from 'axios';
-import {useCookies} from 'react-cookie'
+import {useCookies} from 'react-cookie';
 import './changepassword.css';
 import Loading from '../UI/Loading';
 
@@ -17,13 +17,30 @@ const reducer=(state,action)=>{
       case "OPEN1": return{open:false,open1:true,open2:false,text:action.value.text,header:action.value.header}
       case "OPEN2": return{open:false,open1:false,open2:true,text:action.value.text,header:action.value.header}    
     }
-}
+} 
 export default function ChangePassword(){
     const inputStyle={
         width:'28rem',
         height:'4rem',
         fontSize:'1.5rem'
     }
+    React.useLayoutEffect(()=>{
+        const checkBackend=async()=>{
+            const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
+            if(!res){
+              throw new Error('There Is Some Server Issue. Please try After Some Time.');
+            }
+        }
+        checkBackend()
+        .then(()=>{
+          if(cookie['token']){
+            window.location.replace('/main');
+          }
+        })
+        .catch((error)=>{
+          dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
+        })
+      },[])
     const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
     const [cookie] = useCookies();
     const [viewPassword, setViewPassword] = React.useState(false);
@@ -103,70 +120,70 @@ export default function ChangePassword(){
             })
         }
     }
+
+    const changePasswordForm = <div className='cp-pageStyle'>
+    <div className='cp-formDivStyle'>
+    <div>
+    <h1>Change Password</h1><br/>
+
+    <Input
+        autoFocus
+        type={viewPassword?"text":"password"}
+        variant='outlined'
+        margin="dense"
+        id="password"
+        name="password"
+        placeholder='Current Password'
+        value={passData.password}
+        onChange={(event)=>{handleChangePass(event)}}
+        style={inputStyle}
+        endAdornment={
+            <InputAdornment position="end">          
+            <IconButton
+                onClick = {(event) => handlePasswordView(event)}
+            >
+                {viewPassword ? <Visibility fontSize="large"/>:<VisibilityOff fontSize="large"/>}
+            </IconButton>
+            </InputAdornment>
+        }
+        /><br/><br/> 
+    <Input
+        autoFocus
+        type="password"
+        variant='outlined'
+        margin="dense"
+        id="newPassword"
+        name="newPassword"
+        placeholder='New Password'
+        value={passData.newPassword}
+        onChange={(event)=>{handleChangePass(event)}}
+        style={inputStyle}
+        /><br/><br/>
+
+    <Input
+        autoFocus
+        type="password"
+        variant='outlined'
+        margin="dense"
+        id="cmfPassword"
+        name="cmfPassword"
+        placeholder='Confirm Password'
+        value={passData.cmfPassword}
+        onChange={(event)=>{handleChangePass(event)}}
+        style={inputStyle}
+        /><br/><br/>
+    <button className="cp-button" onClick={(e)=>{handleSubmitPass(e)}}>Submit</button><br/>
+    <button className="cp-button" onClick={(e)=>{handleBackPass(e)}}>Back</button><br/>
+    </div>
+    </div>
+    </div>
     
     return(
         <>
-        {!loading && <>
-        <div className='cp-pageStyle'>
-        <div className='cp-formDivStyle'>
-        <div>
-        <h1>Change Password</h1><br/>
-
-        <Input
-            autoFocus
-            type={viewPassword?"text":"password"}
-            variant='outlined'
-            margin="dense"
-            id="password"
-            name="password"
-            placeholder='Current Password'
-            value={passData.password}
-            onChange={(event)=>{handleChangePass(event)}}
-            style={inputStyle}
-            endAdornment={
-                <InputAdornment position="end">          
-                <IconButton
-                    onClick = {(event) => handlePasswordView(event)}
-                >
-                    {viewPassword ? <Visibility fontSize="large"/>:<VisibilityOff fontSize="large"/>}
-                </IconButton>
-                </InputAdornment>
-            }
-            /><br/><br/> 
-        <Input
-            autoFocus
-            type="password"
-            variant='outlined'
-            margin="dense"
-            id="newPassword"
-            name="newPassword"
-            placeholder='New Password'
-            value={passData.newPassword}
-            onChange={(event)=>{handleChangePass(event)}}
-            style={inputStyle}
-            /><br/><br/>
-
-        <Input
-            autoFocus
-            type="password"
-            variant='outlined'
-            margin="dense"
-            id="cmfPassword"
-            name="cmfPassword"
-            placeholder='Confirm Password'
-            value={passData.cmfPassword}
-            onChange={(event)=>{handleChangePass(event)}}
-            style={inputStyle}
-            /><br/><br/>
-        <button className="cp-button" onClick={(e)=>{handleSubmitPass(e)}}>Submit</button><br/>
-        <button className="cp-button" onClick={(e)=>{handleBackPass(e)}}>Back</button><br/>
-        </div>
-        </div>
-        </div>
+        {!loading && <>{changePasswordForm}
         {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
         </>}
         {loading && <Loading/>}
-
     </>   
     );
 }

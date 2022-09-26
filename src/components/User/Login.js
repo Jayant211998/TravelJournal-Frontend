@@ -21,18 +21,29 @@ const reducer=(state,action)=>{
   }
 }
 export default function Login(){
+
   const inputStyle={width:'28rem',
                     height: '4rem',
                     fontSize: '1.5rem'
-                  }
-                                                   
+                  }                                                   
   React.useLayoutEffect(()=>{
-    if(cookie['token']){
-      window.location.replace('/main');
+    const checkBackend=async()=>{
+        const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
+        if(!res){
+          throw new Error('There Is Some Server Issue. Please try After Some Time.');
+        }
     }
+    checkBackend()
+    .then(()=>{
+      if(cookie['token']){
+        window.location.replace('/main');
+      }
+    })
+    .catch((error)=>{
+      dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
+    })
   },[])
 const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
-
 const [cookie,setCookie] = useCookies(["username","auth","name"])
 const [loading,setLoading] = React.useState(false);
 const [formData,setFormData] = React.useState({

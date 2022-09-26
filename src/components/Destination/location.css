@@ -9,15 +9,12 @@
     font-size: 1.5rem;
     justify-content: center;
     width:85%;
-
-
   }
   .info{
     display: block;
     justify-content: center;
     width:100%;
     min-height: 7%;
-  
   }
   .image{
     width:80%;
@@ -384,7 +381,7 @@
   .action{
     margin-left: 0;
     padding: 0%;
-    margin-top: 0.8rem;
+    margin-top: 0;
     justify-content: center;
     display:flex;
     width: 102.5%;
@@ -418,15 +415,16 @@
     margin: 1%; 
     background-color: #9fb9e2;
     border-radius: 0.5rem;
-    padding:0.5%;
+    padding-bottom:0.5%;
     box-shadow: .3rem .3rem .4rem .3rem grey;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     width:97%;
   }
   .info{
     display: flex;
     width:100%;
-    min-height: 7%; 
+    /* min-height: 7%;  */
+    padding:0;
   }
   .details{
     width:60%;
@@ -444,34 +442,34 @@
   }
   .placeName{
     margin-top: 0;
-  }
-  
-  .maps{
-    margin-left: 1rem;
-    margin-top: 1rem;
+    display:flex;
+    justify-content: left;
+    
   }
   .date{
     display: flex;
-    margin: auto;
-    justify-content: center;
-    width:100%;
+    margin-left: 0;
+    justify-content: left;
+    /* width:100%; */
   }
   .start{
     margin-right: 1rem;
-    margin-top: 0;
-    width:40%
+    text-align: left;
+    margin-left:0;
+    /* width:40% */
     /* margin-bottom: 0; */
   }
   .end{
     margin-top: 0;
-    width:40%;
+    text-align: left;
+    /* width:40%; */
   }
   .section{
     display:block;
-    width:25%;
-    justify-content: center;
+    width:20%;
+    justify-content: left;
     margin:0;
-    padding:0;
+    padding-bottom:0.9rem;
   }
 
   .image{
@@ -480,27 +478,35 @@
     max-height: 75%;
     border-radius: 0.5rem;
     box-shadow: .2rem .2rem .3rem .2rem grey;
+    margin-bottom: 0;
+    margin-top: 0;
 
   }
   
   .action{
     margin-left: 0;
     padding: 0%;
-    margin-top: 0rem;
     justify-content: center;
     display:flex;
+    margin-top: 0;
     width: 102.5%;
+  }
+  .content-css{
+    text-align: left;
   }
   
   .buttondiv{
     display: block;
   }
-  
+  .maps{
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
 .buttonStyle span{
   display:contents;
 }
   .buttonStyle{
-    margin-left:0;
+        margin-left:0;
         width:100%;
         background-color:#ffbb00;
         margin-top:2%;
@@ -520,8 +526,7 @@
     min-height: 7%;
   }
   .image{
-    width:90%;
-    margin-right:3rem;
+    width:100%;
     max-height: 75%;
     border-radius: 0.5rem;
     box-shadow: .2rem .2rem .3rem .2rem grey;
@@ -530,14 +535,15 @@
   }
   .section{
     display:block;
-    width:30%;
+    width:25%;
   }
   .details{
     width:60%;
     margin-left: 3%;
   }
   .action{
-    margin-top: 1rem;
+    margin-left: 0;
+    padding: 0%;
     justify-content: center;
     display:flex;
     width: 102.5%;
@@ -549,7 +555,7 @@
     border-radius: 0.5rem;
     padding:1%;
     box-shadow: .3rem .3rem .4rem .3rem grey;
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
   .place{
     margin-bottom:0;
@@ -571,40 +577,45 @@
   }
   .date{
     display: flex;
-    margin: auto;
-    justify-content: center;
+    margin: 0;
+    /* justify-content: center; */
   
   }
   .start{
     margin-top: 0;
+    text-align: left;
   }
   .end{
     margin-top: 0;
+    text-align: left;
+
+  }
+  
+  .content-css{
+    text-align: left;
   }
   .buttondiv{
     display: block;
   }
   
-.buttonStyle span{
-  display:contents;
-}
-
-  .buttonStyle{
-        width:90%;
-        background-color:#ffbb00;
-        margin-top:2%;
-        min-height:4rem;
-        border-radius: 0.5rem;
-        border: none;
-        box-shadow: .2rem .2rem .3rem .2rem grey;
-        font-size: 2rem;
-        justify-content: center;
-        text-align: center;
-        padding-bottom: 0.5rem;
-        margin-left: 0;
-
+  .buttonStyle span{
+    display:contents;
   }
-}
+    .buttonStyle{
+          margin-left:0;
+          width:100%;
+          background-color:#ffbb00;
+          margin-top:2%;
+          min-height:3rem;
+          border-radius: 0.5rem;
+          border: none;
+          box-shadow: .2rem .2rem .3rem .2rem grey;
+          font-size: 1.7rem;
+          justify-content: center;
+          text-align: center;
+          padding-bottom: 0.5rem;
+    }
+  }
 
 
 

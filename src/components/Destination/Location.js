@@ -54,58 +54,58 @@ export default function Loaction(props){
             setNumLines(8);
         }
         else if(winWidth>'1024'){
-            setNumLines(5);
+            setNumLines(4);
         }
     },[])
-     
+    const location = <div className="comp" >
+    <div className="info">
+            <div className="section">
+            <img className="image" 
+                    src={props.info.image} 
+                    alt="img" 
+                    />
+            <div className="buttondiv">
+                <button  className="buttonStyle" onClick={(event)=>{props.handleImagesShow(event,props.info.id)}}><span>View Images</span> <Visibility fontSize='large'/></button>
+                <button className="buttonStyle" href={props.info.link}><span>Map Location</span><LocationOnIcon fontSize='large'/></button>                
+            </div>
+            {encrypt[1].decrypt(cookie['auth'])==='admin' && props.show &&
+                        <div className="action">  
+                            <button className="buttonStyle" onClick={()=>{window.location.replace('/myaccount/destinationdetails/editLocation/'+props.info.id)}}><EditIcon fontSize="large" style={{color:'black'}} /></button>
+                            <button className="buttonStyle" onClick={()=>{deleteDestination(props.info.id)}}><DeleteIcon fontSize="large" /></button>
+                        </div>
+            }
+            </div>
+            <div className="details">
+                <div className="location">
+                    <p className="place"> <b>Country:</b>{" "+props.info.location}</p>
+                </div>
+                <div className="placeName"><h3>{props.info.title}</h3></div>
+                    <div className="date">
+                        <p className='start'><b>StartDate:</b>{" "+props.info.startDate}</p>
+                        <p className='end'><b>EndDate:</b>{" "+props.info.endDate}</p>
+                    </div>
+                    <div>
+                    <ShowMoreText
+                        lines={numLines}
+                        style={{width:'100%'}}
+                        more="Show more"
+                        less="Show less"
+                        className="content-css"
+                        anchorClass="my-anchor-css-class"
+                        width={window.innerWidth>'1024'?1000:550}
+                        truncatedEndingComponent={"... "}
+                    >
+                        <p>{props.info.description}</p>
+                    </ShowMoreText>
+                    </div>
+                </div>
+                
+            </div>
+    </div>
 
     return(
         <>
-        <div className="comp" >
-        <div className="info">
-                <div className="section">
-                <img className="image" 
-                        src={props.info.image} 
-                        alt="img" 
-                        />
-                <div className="buttondiv">
-                    <button  className="buttonStyle" onClick={(event)=>{props.handleImagesShow(event,props.info.id)}}><span>View Images</span> <Visibility fontSize='large'/></button>
-                    <button className="buttonStyle" href={props.info.link}><span>Map Location</span><LocationOnIcon fontSize='large'/></button>                
-                </div>
-                {encrypt[1].decrypt(cookie['auth'])==='admin' && props.show &&
-                            <div className="action">  
-                                <button className="buttonStyle" onClick={()=>{window.location.replace('/myaccount/destinationdetails/editLocation/'+props.info.id)}}><EditIcon fontSize="large" style={{color:'black'}} /></button>
-                                <button className="buttonStyle" onClick={()=>{deleteDestination(props.info.id)}}><DeleteIcon fontSize="large" /></button>
-                            </div>
-                }
-                </div>
-                <div className="details">
-                    <div className="location">
-                        <p className="place"> <b>Country:</b>{" "+props.info.location}</p>
-                    </div>
-                    <div className="placeName"><h3>{props.info.title}</h3></div>
-                        <div className="date">
-                            <p className='start'><b>StartDate:</b>{" "+props.info.startDate}</p>
-                            <p className='end'><b>EndDate:</b>{" "+props.info.endDate}</p>
-                        </div>
-                        <div>
-                        <ShowMoreText
-                            lines={numLines}
-                            style={{width:'100%'}}
-                            more="Show more"
-                            less="Show less"
-                            className="content-css"
-                            anchorClass="my-anchor-css-class"
-                            width={window.innerWidth>'1024'?1000:550}
-                            truncatedEndingComponent={"... "}
-                        >
-                            <p>{props.info.description}</p>
-                        </ShowMoreText>
-                        </div>
-                    </div>
-                    
-                </div>
-        </div>
+        {location}
         {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
     
     </>

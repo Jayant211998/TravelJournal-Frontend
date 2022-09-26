@@ -13,9 +13,7 @@ export default function Loading(){
         color="#F55A5A"
         height={250}
         width={125}
-        // left={winWidth<'425'?7:250}
-        // top={winWidth<'425'?5000:250}
-      />
+         />
       </div>
       )
 } 

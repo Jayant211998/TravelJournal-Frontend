@@ -7,7 +7,9 @@ import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import './register.css';
 import Loading from '../UI/Loading';
+import {useCookies} from 'react-cookie'
 
+ 
 const reducer=(state,action)=>{
   switch(action.type){
     case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
@@ -25,7 +27,25 @@ const inputStyle={
                   fontSize:'1.5rem'
                 
                 }
+                React.useLayoutEffect(()=>{
+                  const checkBackend=async()=>{
+                      const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
+                      if(!res){
+                        throw new Error('There Is Some Server Issue. Please try After Some Time.');
+                      }
+                  }
+                  checkBackend()
+                  .then(()=>{
+                    if(cookie['token']){
+                      window.location.replace('/main');
+                    }
+                  })
+                  .catch((error)=>{
+                    dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
+                  })
+                },[])
 const unique_id = uuid();
+const [cookie,setCookie] = useCookies(["username","auth","name"])
 const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
 const profileImg = React.useRef(null);
 const [profilePic,setProfilePic] = React.useState(null);
@@ -152,93 +172,93 @@ const [formData,setFormData] = React.useState({
           }
     }
     }
-    return(<>
-      {!loading &&<>
-        <div className="register-pageStyle">
-        <div className="register-formDivStyle">
-          <div>
-        <h1 >Register</h1><br/>
-        <input type="file" ref={profileImg} onChange={(e)=>{handleChangeImg(e)}} style={{display:'none'}} />
-              
-        <input type="radio" id="admin" name="auth" value='admin' onChange={(e)=>{handleChange(e)}}/>
-        <label htmlFor="admin">Admin</label>
-        <input type="radio" id="user" name="auth" value='user' onChange={(e)=>{handleChange(e)}}/>
-        <label htmlFor="user">User</label><br/><br/>
-
-        <Input
-            autoFocus
-            variant='outlined'
-            margin="dense"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={(event)=>{handleChange(event)}}
-            style={inputStyle}
-            placeholder="Email"
-          /><br/>
+    const registerForm =<div className="register-pageStyle">
+    <div className="register-formDivStyle">
+      <div>
+    <h1 >Register</h1><br/>
+    <input type="file" ref={profileImg} onChange={(e)=>{handleChangeImg(e)}} style={{display:'none'}} />
           
-          <Input
-            autoFocus
-            variant='outlined'
-            margin="dense"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={(event)=>{handleChange(event)}}
-            style={inputStyle}
-            placeholder="Name"
+    <input type="radio" id="admin" name="auth" value='admin' onChange={(e)=>{handleChange(e)}}/>
+    <label htmlFor="admin">Admin</label>
+    <input type="radio" id="user" name="auth" value='user' onChange={(e)=>{handleChange(e)}}/>
+    <label htmlFor="user">User</label><br/><br/>
 
-          /><br/>
+    <Input
+        autoFocus
+        variant='outlined'
+        margin="dense"
+        id="username"
+        name="username"
+        value={formData.username}
+        onChange={(event)=>{handleChange(event)}}
+        style={inputStyle}
+        placeholder="Email"
+      /><br/>
+      
+      <Input
+        autoFocus
+        variant='outlined'
+        margin="dense"
+        id="name"
+        name="name"
+        value={formData.name}
+        onChange={(event)=>{handleChange(event)}}
+        style={inputStyle}
+        placeholder="Name"
 
-          <Input
-            autoFocus
-            variant='outlined'
-            margin="dense"
-            id="password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={(event)=>{handleChange(event)}}
-            style={inputStyle}
-            placeholder="Password"
+      /><br/>
 
-          /><br/>
-          <Input
-            autoFocus
-            variant='outlined'
-            margin="dense"
-            id="cmf_password"
-            name="cmf_password"
-            type="password"
-            value={formData.cmf_password}
-            onChange={(event)=>{handleChange(event)}}
-            style={inputStyle}
-            placeholder="Confirm Password"
+      <Input
+        autoFocus
+        variant='outlined'
+        margin="dense"
+        id="password"
+        name="password"
+        type="password"
+        value={formData.password}
+        onChange={(event)=>{handleChange(event)}}
+        style={inputStyle}
+        placeholder="Password"
 
-          /><br/>
-          {formData.auth==='admin' && <>
-          <Input
-            autoFocus
-            variant='outlined'
-            margin="dense"
-            id="key"
-            name="key"
-            type="password"
-            value={formData.key}
-            onChange={(event)=>{handleChange(event)}}
-            style={inputStyle}
-            placeholder="Key"
-          /><br/></>}
-          <br/>
-           
-          <button onClick={(e)=>{handleRegister(e);} } className="register-button">Register</button><br/>
-          <p className="register-link">
-              Already have an account ? <a href='/'>Sign In</a>
-            </p>
-          <br/>
-     </div>
-     </div>
-     </div>
+      /><br/>
+      <Input
+        autoFocus
+        variant='outlined'
+        margin="dense"
+        id="cmf_password"
+        name="cmf_password"
+        type="password"
+        value={formData.cmf_password}
+        onChange={(event)=>{handleChange(event)}}
+        style={inputStyle}
+        placeholder="Confirm Password"
+
+      /><br/>
+      {formData.auth==='admin' && <>
+      <Input
+        autoFocus
+        variant='outlined'
+        margin="dense"
+        id="key"
+        name="key"
+        type="password"
+        value={formData.key}
+        onChange={(event)=>{handleChange(event)}}
+        style={inputStyle}
+        placeholder="Key"
+      /><br/></>}
+      <br/>
+       
+      <button onClick={(e)=>{handleRegister(e);} } className="register-button">Register</button><br/>
+      <p className="register-link">
+          Already have an account ? <a href='/'>Sign In</a>
+        </p>
+      <br/>
+ </div>
+ </div>
+ </div>
+    return(<>
+      {!loading && <>{registerForm}
      {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
     {state.open1 && <DialogBox text={state.text} handleClose={handleClose1} header={state.header}/>}
     </>}

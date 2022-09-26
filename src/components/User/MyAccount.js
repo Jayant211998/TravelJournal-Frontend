@@ -8,6 +8,7 @@ import './user.css'
 
 export default function MyAccount(){
 
+    
     const [cookie] = useCookies();
     
     const imgStyle={height:"15rem",

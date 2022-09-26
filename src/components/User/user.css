@@ -89,7 +89,7 @@
 @media screen and (min-width: 426px){
     
 .my-details{
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     margin-top: 6%;
 
 }
@@ -98,7 +98,7 @@
         height: 4rem;
         background-color: #F55A5A;
         color: white;
-        font-size: 2rem;
+        font-size: 1.5rem;
         border: none;
         border-radius: 0.5rem;
         margin-top: 1.5rem;

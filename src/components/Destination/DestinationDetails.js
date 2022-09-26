@@ -31,10 +31,21 @@ const reducer=(state,action)=>{
 
 export default function DestinationDetails(){
     React.useLayoutEffect(()=>{
-        if(encrypt[1].decrypt(cookie['auth'])==="user"){
-            dispatch({type:"OPEN1",value:{text:"You Are Not Autherizesd For This Page",header:"Unautherized User"}});
-
+        const checkBackend=async()=>{
+            const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
+            if(!res){
+              throw new Error('There Is Some Server Issue. Please try After Some Time.');
+            }
         }
+        checkBackend()
+        .then(()=>{
+          if(encrypt[1].decrypt(cookie['auth'])==="user"){
+            dispatch({type:"OPEN2",value:{text:'You Are Not Autherizesd For This Page',header:'Unautherized User'}})
+        }
+        })
+        .catch((error)=>{
+          dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
+        })
       },[])
     const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
     const [cookie] = useCookies();
@@ -66,7 +77,8 @@ export default function DestinationDetails(){
         dispatch({type:"OPEN",value:{open:false,text:'',header:""}});
       }
     const handleImageHide = (event) =>{
-        window.location.replace('/myaccount/destinationdetails');
+        setImages(false);
+        // window.location.replace('/myaccount/destinationdetails');
     }
     function deleteItem(id){
         setData((prev)=>{
@@ -101,8 +113,8 @@ export default function DestinationDetails(){
             <button  className="tab-active" onClick={(event)=>{window.location.replace('/myaccount')}}>Profile</button>
         </div>
         <div className='dest-page'>
-        {locationArr}
-        {encrypt[1].decrypt(cookie['auth'])==='admin' &&
+        {!images && locationArr}
+        {!images && encrypt[1].decrypt(cookie['auth'])==='admin' &&
             <Button style={buttonStyle} 
             onClick={()=>{window.location.replace('/myaccount/destinationdetails/addLocation')}}>
                 +

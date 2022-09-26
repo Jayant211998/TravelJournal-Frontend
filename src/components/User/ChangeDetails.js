@@ -32,6 +32,23 @@ export default function ChangeDetails(){
             height: '4rem',
             fontSize: '1.5rem'
       }
+      React.useLayoutEffect(()=>{
+        const checkBackend=async()=>{
+            const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
+            if(!res){
+              throw new Error('There Is Some Server Issue. Please try After Some Time.');
+            }
+        }
+        checkBackend()
+        .then(()=>{
+          if(cookie['token']){
+            window.location.replace('/main');
+          }
+        })
+        .catch((error)=>{
+          dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
+        })
+      },[])
         const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
         const imageRef = React.useRef(null);
         const [cookie,setCookie] = useCookies();
@@ -95,39 +112,39 @@ export default function ChangeDetails(){
             const handleChangeImg = (e) =>{
                 setImage((e.target.files[0]));
         }
+        const changeDetailsForm = <div  className="content">
+                                    <div className="user-details">
+                                    {image && image!=="undefined"?<><img src={image===cookie['image']?(image):URL.createObjectURL(image)} onClick={(e)=>handleImg(e)} className="imgStyle"/></>:
+                                    <><PersonSharpIcon aria-controls="menu-appbar" aria-haspopup="true" onClick={(e)=>handleImg(e)} style={imgStyle}/></>}
+                                    <input type="file" ref={imageRef} style={{display:"none"}} onChange={(e)=>{handleChangeImg(e)}}/>
+                                    <form  onSubmit={(e)=>{handleSubmit(e)}}>
+                                    <TextField 
+                                    autoFocus
+                                    variant='outlined'
+                                    margin="dense"
+                                    id="name"
+                                    InputProps={{ style: { fontSize: '1.5rem' } }}
+                                    InputLabelProps={{ style: { fontSize: '1.5rem' } }}
+                                    style={inputStyle}
+                                    name="name"
+                                    label="Name"
+                                    value={formData.name}
+                                    onChange={(event)=>{handleChange(event)}}
+                                    /><br/>
+
+                                    </form>
+                                    <table className='table'>
+                                        <tr className="rowstyle"><td className="tablestyle"><h4 >UserName:</h4></td> <td className="tablestyle"><h4>{encrypt[1].decrypt(cookie['username'])}</h4></td></tr>
+                                        <tr className="rowstyle"><td className="tablestyle"><h4 >Authrization:</h4></td> <td className="tablestyle"><h4>{encrypt[1].decrypt(cookie['auth']).toUpperCase()}</h4></td></tr>
+                                        </table>
+                                        <button className="details-button" onClick={(e)=>{handleSubmit(e)}}>Submit</button>
+                                        <br/>
+                                        <button className="details-button" onClick={(e)=>{handleBack(e)}}>Back</button>
+                                    </div>
+                                    </div>
         return(
         <>
-        {!loading &&<>
-        <div  className="content">
-        <div className="user-details">
-        {image && image!=="undefined"?<><img src={image===cookie['image']?(image):URL.createObjectURL(image)} onClick={(e)=>handleImg(e)} className="imgStyle"/></>:
-        <><PersonSharpIcon aria-controls="menu-appbar" aria-haspopup="true" onClick={(e)=>handleImg(e)} style={imgStyle}/></>}
-        <input type="file" ref={imageRef} style={{display:"none"}} onChange={(e)=>{handleChangeImg(e)}}/>
-        <form  onSubmit={(e)=>{handleSubmit(e)}}>
-        <TextField 
-        autoFocus
-        variant='outlined'
-        margin="dense"
-        id="name"
-        InputProps={{ style: { fontSize: '1.5rem' } }}
-        InputLabelProps={{ style: { fontSize: '1.5rem' } }}
-        style={inputStyle}
-        name="name"
-        label="Name"
-        value={formData.name}
-        onChange={(event)=>{handleChange(event)}}
-        /><br/>
-
-        </form>
-        <table className='table'>
-            <tr className="rowstyle"><td className="tablestyle"><h4 >UserName:</h4></td> <td className="tablestyle"><h4>{encrypt[1].decrypt(cookie['username'])}</h4></td></tr>
-            <tr className="rowstyle"><td className="tablestyle"><h4 >Authrization:</h4></td> <td className="tablestyle"><h4>{encrypt[1].decrypt(cookie['auth']).toUpperCase()}</h4></td></tr>
-            </table>
-            <button className="details-button" onClick={(e)=>{handleSubmit(e)}}>Submit</button>
-            <br/>
-            <button className="details-button" onClick={(e)=>{handleBack(e)}}>Back</button>
-        </div>
-        </div>
+        {!loading &&<>{changeDetailsForm}
         {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
         </>}
         {loading && <Loading/>}
