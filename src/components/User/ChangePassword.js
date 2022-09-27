@@ -32,11 +32,6 @@ export default function ChangePassword(){
             }
         }
         checkBackend()
-        .then(()=>{
-          if(cookie['token']){
-            window.location.replace('/main');
-          }
-        })
         .catch((error)=>{
           dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
         })

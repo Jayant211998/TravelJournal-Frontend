@@ -412,7 +412,7 @@
 @media screen and (min-width: 1025px) {
   .comp{
     display:flex;
-    margin: 1%; 
+    margin: 1% auto; 
     background-color: #9fb9e2;
     border-radius: 0.5rem;
     padding-bottom:0.5%;

@@ -8,8 +8,8 @@ import { storage } from '../../firebase';
 import { ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import DialogBox from '../UI/DialogBox';
 import Loading from '../UI/Loading';
-import encrypt from '../../encrypt'
-import './changelocation.css' 
+import encrypt from '../../encrypt';
+import './changelocation.css';
 
 const reducer=(state,action)=>{
     switch(action.type){

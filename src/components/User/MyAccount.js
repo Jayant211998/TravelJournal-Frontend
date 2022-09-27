@@ -1,5 +1,4 @@
 import {useCookies} from 'react-cookie'
-import Button from '@material-ui/core/Button';
 import React from 'react';
 import encrypt from '../../encrypt';
 import PersonSharpIcon from '@material-ui/icons/PersonSharp';

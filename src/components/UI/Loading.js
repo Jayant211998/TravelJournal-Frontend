@@ -3,7 +3,6 @@ import ReactLoading from 'react-loading'
 import './header.css'
 
 export default function Loading(){
-    const winWidth = window.innerWidth;
     createRoot(document.getElementById('loading')).render(
         <div
             className="loader"

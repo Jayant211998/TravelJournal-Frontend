@@ -4,9 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import DialogBox from '../UI/DialogBox';
 import { useCookies } from 'react-cookie';
+import { storage } from '../../firebase';
+import { ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import encrypt from '../../encrypt';
 import Loading from '../UI/Loading';
-import './changelocation.css'
+import './changelocation.css';
 
 const reducer=(state,action)=>{
   switch(action.type){
@@ -34,9 +36,27 @@ export default function EditLocation(props){
     })
   },[])
   const [cookie] = useCookies(); 
+  const images = React.useRef();
+  const profile = React.useRef();
   const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
   const [loading,setLoading] = React.useState(false);
+  const [image,setImage] = React.useState(null);
+  const [imageList,setImageList] = React.useState([]);
 
+  const imagesSelected = imageList.map(img => {
+    return <>{img.name+" , "}</>
+  })
+  const profileImg = <>{image?image.name:""}</>
+
+
+  const handleFileChange = (event) =>{ 
+    event.preventDefault();
+    setImageList(prev =>[...prev,...event.target.files]);
+  }
+  const handleImageChange = (event) =>{
+      event.preventDefault();
+      setImage(event.target.files[0]);
+  }
   function handleClose(e){
     dispatch({type:"OPEN",value:{open:false,text:'',header:""}});
   }
@@ -77,7 +97,8 @@ export default function EditLocation(props){
       startDate:"",
       endDate:"",
       link:"",
-      image:""
+      image:"",
+      imageList: []
     });
 
     const handleChange=(event)=>{   
@@ -109,6 +130,17 @@ export default function EditLocation(props){
     }
     else {
       setLoading(true);
+      const imgRef =  ref(storage , `travelJournal/destination/profile/${formData.id}`);
+      const imgUpload = await uploadBytes(imgRef, image);
+      const imgUrl = await getDownloadURL(imgRef);
+      let listOfImages = [];
+      for(let i=0;i<imageList.length;i++){
+          const imageRef =  ref(storage , `travelJournal/destination/${encrypt[1].decrypt(cookie['id'])}/${formData.id}/img${i+1}`);
+          const imageUpload = await uploadBytes(imageRef, imageList[i]);
+          const url = await getDownloadURL(imageRef);
+          listOfImages.push(url);
+      }
+      // listOfImages.unshift(imgUrl);
       const token = cookie['token'];
       const  data ={...formData, 
         link:"http://maps.google.com/?q="+formData.title}
@@ -209,6 +241,22 @@ export default function EditLocation(props){
            onChange={(event)=>{handleChange(event)}}
          /></div></div><br/>
            <br/>
+           <div className='selected-img'>
+          <Button style={{width:'100%',fontSize:'1.4rem',color:'white'}} onClick={(e)=>{profile.current.click()}}>Profile Image</Button>
+        </div>
+        <input type="file" ref={profile} style={{display:'none'}} onChange={(e)=>handleImageChange(e)} />
+        <div className="img-list">
+         {profileImg}
+         </div>
+        <br/><br/>
+        <div className='selected-img'>
+          <Button style={{width:'100%',fontSize:'1.4rem',color:'white'}} onClick={(e)=>{images.current.click()}}>Select Images</Button>
+        </div> 
+        <input type="file" multiple ref={images} style={{display:'none'}} onChange={(e)=>handleFileChange(e)} />
+         <div className="img-list">
+         {imagesSelected}
+         </div>
+         <br/><br/>
            <div className="submit-button">
             <Button 
            style={{width:'100%',fontSize:'1.5rem',color:'white'}}   
