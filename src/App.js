@@ -12,6 +12,7 @@ import React,{useState} from 'react';
 import ErrorPage from './components/ErrorPage';
 import DestinationDetails from './components/Destination/DestinationDetails';
 import ChangePassword from './components/User/ChangePassword';
+import ResetPassword from './components/User/ResetPassword';
 import ChangeDetails from './components/User/ChangeDetails';
 import ForgetPassword from './components/User/ForgetPassword'
 import {useCookies} from 'react-cookie'; 
@@ -30,7 +31,7 @@ function App() {
   }
   const [cookie]  = useCookies();
   const path=(window.location.pathname.split('/').pop());
-  const validPath = cookie['token'] && path && path!=='register' && path!=='changepassword' && path!=='forgetpassword'
+  const validPath = cookie['token'] && path && path!=='register' && path!=='changepassword' && path!=='forgetpassword' && path!=='resetpassword'
   return (
     <div className="App">      
       {validPath &&<Header />}
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/" element={<Login/>} />
                 <Route path="register" element={<Register/>} />
                 <Route path="forgetpassword" element={<ForgetPassword/>} />
+                <Route path="resetpassword/:auth/:id" element={<ResetPassword/>}/>
                 <Route path="myaccount" element={cookie['token']?<MyAccount/>:<Login/>}/>
                 <Route path="myaccount/edit" element={cookie['token']?<ChangeDetails/>:<Login/>}/>
                 <Route path="myaccount/changepassword" element={cookie['token']?<ChangePassword/>:<Login/>}/>

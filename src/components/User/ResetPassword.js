@@ -1,5 +1,4 @@
 import React from 'react';
-import encrypt from '../../encrypt';
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Input from "@material-ui/core/Input";
 import IconButton from "@material-ui/core/IconButton";
@@ -16,9 +15,10 @@ const reducer=(state,action)=>{
       case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
       case "OPEN1": return{open:false,open1:true,open2:false,text:action.value.text,header:action.value.header}
       case "OPEN2": return{open:false,open1:false,open2:true,text:action.value.text,header:action.value.header}    
+      case "close": return{open:false,open1:false,open2:false,text:"",header:""}
     }
 } 
-export default function ChangePassword(){
+export default function ResetPassword(){
     const inputStyle={
         width:'28rem',
         height:'4rem',
@@ -39,6 +39,7 @@ export default function ChangePassword(){
     const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
     const [cookie] = useCookies();
     const [viewPassword, setViewPassword] = React.useState(false);
+    const [viewcmfPassword, setViewCmfPassword] = React.useState(false);
     const [loading,setLoading] = React.useState(false);
     const [passData, setPassDate] = React.useState({
         password:"",
@@ -47,9 +48,12 @@ export default function ChangePassword(){
     })
     
     function handleClose(e){
-        window.location.replace('/myaccount');
+        dispatch({type:"close"})
+        // window.location.replace();
       }
-
+      const handleCmfPasswordView = (event) =>{
+        setViewCmfPassword(!viewcmfPassword);
+      }
     const handlePasswordView = (event) =>{
         setViewPassword(!viewPassword);
       }
@@ -62,15 +66,9 @@ export default function ChangePassword(){
             }
         })
     }
-    const handleBackPass=()=>{
-        window.location.replace('/myaccount');
-    }
     const handleSubmitPass=async(event)=>{
         const passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
-        if(passData.password===""){
-            dispatch({type:"OPEN",value:{open:true,text:'Please Enter Current Password or OTP',header:"Invalid Input"}});
-        } 
-        else if(passData.newPassword===""){
+        if(passData.newPassword===""){
             dispatch({type:"OPEN",value:{open:true,text:'Please Enter New Password',header:"Invalid Input"}});
         } 
         else if(passData.newPassword!==passData.cmfPassword){
@@ -81,32 +79,14 @@ export default function ChangePassword(){
           }
         else{ 
             setLoading(true);
-            const data={ auth:encrypt[1].decrypt(cookie['auth']),
-                            username:encrypt[1].decrypt(cookie['username']),
-                            password:passData.password,
-                            key:encrypt[1].decrypt(cookie['key']),
-                            changePass:true
-                } 
-            const login = await axios.post(`${process.env.REACT_APP_SERVER}/login`,{data});
-            if(login.data.status){
-                const token = cookie['token'];
-                const updateData = {username:login.data.data[0].username,auth:login.data.data[0].auth, password: passData.newPassword,id:login.data.data[0].id};
-                const changePassword = await axios.post(`${process.env.REACT_APP_SERVER}/changePassword`,{
-                    headers: {
-                            Authorization: token
-                        },
-                        updateData})
-                     setLoading(false);
-                    if(changePassword.data.status){
-                        dispatch({type:"OPEN",value:{open:true,text:'Your Password Has Been Successfully Changed.',header:"Password Changed Successfully."}});
-                    }else{
-                        dispatch({type:"OPEN",value:{open:true,text:changePassword.data.message,header:"Unable To Change Password."}});
-                    }
-                }
-            
-            else{        
-                setLoading(false);     
-                dispatch({type:"OPEN",value:{open:true,text:login.data.message,header:"Unable To Change Password."}});
+            const info = window.location.pathname.split("/");
+            const data = {password:passData.newPassword};
+            const resetPassword = await axios.post(`${process.env.REACT_APP_SERVER}/resetPassword/${info[2]}/${info[3]}`,{data});
+            setLoading(false);
+            if(resetPassword.data.status){
+                dispatch({type:"OPEN",value:{open:true,text:'Your Password Has Been Successfully Changed.',header:"Password Changed Successfully."}});
+            }else{
+                dispatch({type:"OPEN",value:{open:true,text:resetPassword.data.message,header:"Unable To Change Password."}});
             }
             setPassDate({
                 password:"",
@@ -116,20 +96,20 @@ export default function ChangePassword(){
         }
     }
 
-    const changePasswordForm = <div className='cp-pageStyle'>
-    <div className='cp-formDivStyle'>
+    const resetPasswordForm = <div className='fp-pageStyle'>
+    <div className='fp-formDivStyle'>
     <div>
-    <h1>Change Password</h1><br/>
+    <h1>Reset Password</h1><br/>
 
     <Input
         autoFocus
         type={viewPassword?"text":"password"}
         variant='outlined'
         margin="dense"
-        id="password"
-        name="password"
-        placeholder='Current Password'
-        value={passData.password}
+        id="newPassword"
+        name="newPassword"
+        placeholder='New Password'
+        value={passData.newPassword}
         onChange={(event)=>{handleChangePass(event)}}
         style={inputStyle}
         endAdornment={
@@ -141,23 +121,11 @@ export default function ChangePassword(){
             </IconButton>
             </InputAdornment>
         }
-        /><br/><br/> 
-    <Input
-        autoFocus
-        type="password"
-        variant='outlined'
-        margin="dense"
-        id="newPassword"
-        name="newPassword"
-        placeholder='New Password'
-        value={passData.newPassword}
-        onChange={(event)=>{handleChangePass(event)}}
-        style={inputStyle}
         /><br/><br/>
 
     <Input
         autoFocus
-        type="password"
+        type={viewcmfPassword?"text":"password"}
         variant='outlined'
         margin="dense"
         id="cmfPassword"
@@ -166,16 +134,24 @@ export default function ChangePassword(){
         value={passData.cmfPassword}
         onChange={(event)=>{handleChangePass(event)}}
         style={inputStyle}
+        endAdornment={
+            <InputAdornment position="end">          
+            <IconButton
+                onClick = {(event) => handleCmfPasswordView(event)}
+            >
+                {!viewcmfPassword ? <Visibility fontSize="large"/>:<VisibilityOff fontSize="large"/>}
+            </IconButton>
+            </InputAdornment>
+        }
         /><br/><br/>
     <button className="cp-button" onClick={(e)=>{handleSubmitPass(e)}}>Submit</button><br/>
-    <button className="cp-button" onClick={(e)=>{handleBackPass(e)}}>Back</button><br/>
     </div>
     </div>
     </div>
     
     return(
         <>
-        {!loading && <>{changePasswordForm}
+        {!loading && <>{resetPasswordForm}
         {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
         </>}
         {loading && <Loading/>}

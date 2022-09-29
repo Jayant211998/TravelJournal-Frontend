@@ -70,10 +70,10 @@ const [formData,setFormData] = React.useState({
         const forgetPassword = await axios.post(`${process.env.REACT_APP_SERVER}/forgetPassword`,{data});
         setLoading(false);
         if(forgetPassword.data.resp && forgetPassword.data.status){
-          dispatch({type:"OPEN",value:{open:true,text:'Check Email "+formData.username+"for Temporary Password Login With it and Change it from My Profile.',header:"E-Mail Sent"}});
+          dispatch({type:"OPEN",value:{open:true,text:`Check Email ${formData.username} for Temporary Password Login With it and Change it from My Profile.`,header:"E-Mail Sent"}});
         }
         else{
-          dispatch({type:"OPEN",value:{open:true,text:'forgetPassword.data.message',header:"Unable to send Mail."}});
+          dispatch({type:"OPEN",value:{open:true,text:forgetPassword.data.message,header:"Unable to send Mail."}});
         }
       }
       

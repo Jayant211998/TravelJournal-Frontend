@@ -3,8 +3,6 @@ import axios from 'axios';
 import DialogBox from '../UI/DialogBox';
 import Input from "@material-ui/core/Input";
 import { v4 as uuid } from 'uuid';
-import { storage } from '../../firebase';
-import { ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 import './register.css';
 import Loading from '../UI/Loading';
 import {useCookies} from 'react-cookie'
@@ -148,12 +146,6 @@ const [formData,setFormData] = React.useState({
       }
       else{
         setLoading(true);
-        let imgUrl = "";
-        if(profilePic!==null){
-          const imgRef =  ref(storage , `travelJournal/user/${formData.id}`);
-          const imgUpload = await uploadBytes(imgRef, profilePic);
-          imgUrl = await getDownloadURL(imgRef);
-        }
         const data={ 
           id:unique_id.slice(0,8),
           auth:formData.auth,
@@ -161,7 +153,7 @@ const [formData,setFormData] = React.useState({
           name:formData.name,
           password:formData.password,
           key:formData.key,
-          image:imgUrl
+          image:""
         }
           const register = await axios.post(`${process.env.REACT_APP_SERVER}/register`,{data});
           setLoading(false);
