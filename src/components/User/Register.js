@@ -5,7 +5,8 @@ import Input from "@material-ui/core/Input";
 import { v4 as uuid } from 'uuid';
 import './register.css';
 import Loading from '../UI/Loading';
-import {useCookies} from 'react-cookie'
+import InputDialogBox from '../UI/InputDialogBox';
+import {useCookies} from 'react-cookie';
 
  
 const reducer=(state,action)=>{
@@ -13,40 +14,41 @@ const reducer=(state,action)=>{
     case "OPEN": return{open:action.value.open,open1:false,open2:false,text:action.value.text,header:action.value.header}
     case "OPEN1": return{open:false,open1:true,open2:false,text:action.value.text,header:action.value.header}
     case "OPEN2": return{open:false,open1:false,open2:true,text:action.value.text,header:action.value.header}    
+    case "default":return{open:false,open1:false,open2:false,text:"",header:""}
   }
 }
 
+const inputStyle={
+  width:'28rem',
+  height:'4rem',
+  marginTop:'0.5rem',
+  fontSize:'1.5rem'
+}
 export default function Register(){
 
-const inputStyle={
-                  width:'28rem',
-                  height:'4rem',
-                  marginTop:'0.5rem',
-                  fontSize:'1.5rem'
-                
-                }
-                React.useLayoutEffect(()=>{
-                  const checkBackend=async()=>{
-                      const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
-                      if(!res){
-                        throw new Error('There Is Some Server Issue. Please try After Some Time.');
-                      }
-                  }
-                  checkBackend()
-                  .then(()=>{
-                    if(cookie['token']){
-                      window.location.replace('/main');
-                    }
-                  })
-                  .catch((error)=>{
-                    dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
-                  })
-                },[])
+  React.useLayoutEffect(()=>{
+    const checkBackend=async()=>{
+        const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
+        if(!res){
+          throw new Error('There Is Some Server Issue. Please try After Some Time.');
+        }
+    }
+    checkBackend()
+    .then(()=>{
+      if(cookie['token']){
+        window.location.replace('/main');
+      }
+    })
+    .catch((error)=>{
+      dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
+    })
+  },[])
 const unique_id = uuid();
-const [cookie,setCookie] = useCookies(["username","auth","name"])
+const [cookie] = useCookies(["username","auth","name"]);
+const [otp,setOtp] = React.useState("");
+const [enteredOtp,setEnteredOtp] = React.useState("");
+const [error,setError] = React.useState(false);
 const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
-const profileImg = React.useRef(null);
-const [profilePic,setProfilePic] = React.useState(null);
 const [userList, setUserList] = React.useState([]);
 const [adminList, setAdminList] = React.useState([]);
 const [loading,setLoading] = React.useState(false);
@@ -90,16 +92,37 @@ const [formData,setFormData] = React.useState({
       getAllUser();
     },[]);
 
-    function handleChangeImg(e){
-      setProfilePic(e.target.files[0]);
-    }
 
     function handleClose(e){
       dispatch({type:"OPEN",value:{open:false,text:'',header:""}});
     }
     function handleClose1(e){
       window.location.replace('/');
-
+    }
+    async function handleSubmit(e){
+      if(otp===enteredOtp){
+        dispatch({type:"OPEN",value:{open2:false,text:"",header:""}});
+        setLoading(true);
+          const data={ 
+            id:unique_id.slice(0,8),
+            auth:formData.auth,
+            username:formData.username,
+            name:formData.name,
+            password:formData.password,
+            key:formData.key,
+            image:""
+          }
+          const register = await axios.post(`${process.env.REACT_APP_SERVER}/register`,{data});
+        setLoading(false);
+        if(register.data.status){
+          dispatch({type:"OPEN1",value:{text:register.data.message,header:"Registration Successfully"}})
+        }else{
+          dispatch({type:"OPEN",value:{open:true,text:register.data.message,header:"Registration Failed."}});
+        }
+      }
+      else{
+        setError(true);
+      }
     }
 
     const handleChange=(event)=>{
@@ -107,6 +130,9 @@ const [formData,setFormData] = React.useState({
            return { ...prev,
             [event.target.name]:event.target.value}
         });
+    }
+    const handleChangeOTP=(event)=>{
+      setEnteredOtp(event.target.value);
     }
     const handleRegister=async(e)=>{
       const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -145,31 +171,20 @@ const [formData,setFormData] = React.useState({
         dispatch({type:"OPEN",value:{open:true,text:"This Username Already Exist As User",header:"Invalid Input"}});
       }
       else{
-        setLoading(true);
-        const data={ 
-          id:unique_id.slice(0,8),
-          auth:formData.auth,
+        const myotp = unique_id.slice(0,6); 
+        setOtp(myotp);
+        const data = {
+          otp: myotp,
           username:formData.username,
-          name:formData.name,
-          password:formData.password,
-          key:formData.key,
-          image:""
         }
-          const register = await axios.post(`${process.env.REACT_APP_SERVER}/register`,{data});
-          setLoading(false);
-          if(register.data.status){
-            dispatch({type:"OPEN1",value:{text:register.data.message,header:"Registration Successfully"}})
-          }else{
-            dispatch({type:"OPEN",value:{open:true,text:register.data.message,header:"Registration Failed."}});
-          }
+        await axios.post(`${process.env.REACT_APP_SERVER}/verifyuser`,{data});
+        dispatch({type:"OPEN2",value:{text:"Email has been sent with an OTP to Email-ID with which you want to Register Please Enter that OTP to continue registration.",header:"Verify OTP"}});
     }
     }
     const registerForm =<div className="register-pageStyle">
     <div className="register-formDivStyle">
       <div>
-    <h1 >Register</h1><br/>
-    <input type="file" ref={profileImg} onChange={(e)=>{handleChangeImg(e)}} style={{display:'none'}} />
-          
+    <h1 >Register</h1><br/>         
     <input type="radio" id="admin" name="auth" value='admin' onChange={(e)=>{handleChange(e)}}/>
     <label htmlFor="admin">Admin</label>
     <input type="radio" id="user" name="auth" value='user' onChange={(e)=>{handleChange(e)}}/>
@@ -252,7 +267,8 @@ const [formData,setFormData] = React.useState({
     return(<>
       {!loading && <>{registerForm}
      {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
-    {state.open1 && <DialogBox text={state.text} handleClose={handleClose1} header={state.header}/>}
+     {state.open1 && <DialogBox text={state.text} handleClose={handleClose1} header={state.header}/>}
+     {state.open2 && <InputDialogBox text={state.text} error={error} otp={enteredOtp} handleChange={handleChangeOTP} handleClose={handleSubmit} header={state.header}/>}
     </>}
       {loading && <Loading/>}
 

@@ -10,14 +10,12 @@ export default function Header(){
     const imgStyle={height:"3.5rem",
                 width:"3.5rem",
                 borderRadius:"50%",
-                border: '0.2rem solid white',
+                border: '0.2rem solid #F55A5A',
               }
     const hoverStyle={
                 height:"4rem",
               width:"4rem",
               borderRadius:"50%",
-              border: '0.3rem solid white',
-              
             }
 
     const [cookie,setCookie,removeCookie] = useCookies()

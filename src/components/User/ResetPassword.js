@@ -6,7 +6,6 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import DialogBox from '../UI/DialogBox';
 import axios from 'axios';
-import {useCookies} from 'react-cookie';
 import './changepassword.css';
 import Loading from '../UI/Loading';
 
@@ -37,7 +36,6 @@ export default function ResetPassword(){
         })
       },[])
     const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
-    const [cookie] = useCookies();
     const [viewPassword, setViewPassword] = React.useState(false);
     const [viewcmfPassword, setViewCmfPassword] = React.useState(false);
     const [loading,setLoading] = React.useState(false);
