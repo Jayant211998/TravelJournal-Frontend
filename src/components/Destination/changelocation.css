@@ -46,6 +46,8 @@
         width:100%;
         justify-content: center;
         background-color: #F55A5A;
+        position:fixed;
+        bottom:0;
     }
 }
 @media screen and (min-width: 426px){
@@ -98,6 +100,8 @@
         border-radius: 0.5rem;
         background-color: blue;
         margin:0 auto 2rem;
+        position:relative;
+
 
     }
 }
@@ -154,6 +158,7 @@
         justify-content: center;
         border-radius: 0.5rem;
         background-color: blue;
+        position:relative;
         margin:0 0 2rem 10%;
 
     }
@@ -212,6 +217,8 @@
         border-radius: 0.5rem;
         background-color: blue;
         margin:0 0 2rem 10%;
+        position:relative;
+
 
     }
 }

@@ -4,11 +4,13 @@
         text-align: center;
         justify-content: center;
         display: flex;
-        padding: 2rem 0 2rem 0;
         background-color: #F55A5A;
         font-size: 1.5rem;
+        height:100vh;
     }
     .formDivStyle{
+        position:fixed;
+        top:6%;
         justify-content: center;
         display: flex;
         height: 45rem;
@@ -56,11 +58,14 @@
         text-align: center;
         justify-content: center;
         display: flex;
-        padding: 4rem 0 4rem 0;
         background-color: #F55A5A;
-        font-size: 1.5rem;
+        font-size: 1.5rem;   
+         height:100vh;
+
     }
-    .formDivStyle{
+    .formDivStyle{        
+        position:fixed;
+        top:6%;
         justify-content: center;
         display: flex;
         height: 45rem;
@@ -106,11 +111,14 @@
             text-align: center;
             justify-content: center;
             display: flex;
-            padding: 7rem 0 7rem 0;
             background-color: #F55A5A;
             font-size: 1.5rem;
+            height:100vh;
+
         }
         .formDivStyle{
+            position:fixed;
+            top:6%;
             justify-content: center;
             display: flex;
             height: 45rem;
@@ -156,11 +164,14 @@
                 text-align: center;
                 justify-content: center;
                 display: flex;
-                padding: 7rem 0 7rem 0;
                 background-color: #F55A5A;
                 font-size: 1.5rem;
+                height:100vh;
+
             }
             .formDivStyle{
+                position:fixed;
+                top:12%;
                 justify-content: center;
                 display: flex;
                 height: 45rem;

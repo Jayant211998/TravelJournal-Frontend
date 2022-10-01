@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 
 
 createRoot(document.getElementById('root')).render(
-    <App />
+    <App style={{height:'100vh'}} />
 );
 
 reportWebVitals();
