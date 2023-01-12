@@ -3,11 +3,11 @@ import {useCookies} from 'react-cookie'
 import Location from './Location';
 import Images from '../UI/Images';
 import Button from '@material-ui/core/Button';
-import { Link } from "react-router-dom";
 import axios from 'axios';
 import DialogBox from '../UI/DialogBox';
-import encrypt from '../../encrypt'
-import './destination.css'
+import encrypt from '../../encrypt';
+import './destination.css';
+
 
 const buttonStyle={
     borderRadius:'100%',
@@ -70,7 +70,7 @@ export default function DestinationDetails(){
             else{
                 dispatch({type:"OPEN",value:{open:true,text:getData.data.message,header:"Unable To Get Your Destinations"}});
             } 
-        }
+        } 
         getData();
     },[])
     function handleClose(e){
@@ -78,7 +78,6 @@ export default function DestinationDetails(){
       }
     const handleImageHide = (event) =>{
         setImages(false);
-        // window.location.replace('/myaccount/destinationdetails');
     }
     function deleteItem(id){
         setData((prev)=>{
@@ -113,8 +112,8 @@ export default function DestinationDetails(){
             <button  className="tab-active" onClick={(event)=>{window.location.replace('/myaccount')}}>Profile</button>
         </div>
         <div className='dest-page'>
-        {!images && locationArr}
-        {!images && encrypt[1].decrypt(cookie['auth'])==='admin' &&
+        { locationArr}
+        {encrypt[1].decrypt(cookie['auth'])==='admin' &&
             <Button style={buttonStyle} 
             onClick={()=>{window.location.replace('/myaccount/destinationdetails/addLocation')}}>
                 +

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 

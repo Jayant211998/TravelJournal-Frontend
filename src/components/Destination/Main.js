@@ -60,7 +60,7 @@ export default function Main(){
             else{
                 dispatch({type:"OPEN",value:{open:true,text:getAllData.data.message,header:"Unable To Get Your Destinations"}});
             }
-        }
+        } 
         getData();
     },[])
     function deleteItem(id){}
@@ -91,7 +91,7 @@ export default function Main(){
     return(
         <>
         <main className='main'>
-        {!images && locationArr}
+        { locationArr}
         {images && <Images  imageList={imageList} handleImageHide={handleImageHide}/>}
         {state.open && <DialogBox text={state.text} handleClose={handleClose} header={state.header}/>}
         </main>
