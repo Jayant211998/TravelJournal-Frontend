@@ -32,18 +32,18 @@ export default function ChangeDetails(){
             height: '4rem',
             fontSize: '1.5rem'
       }
-      React.useLayoutEffect(()=>{
-        const checkBackend=async()=>{
-            const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
-            if(!res){
-              throw new Error('There Is Some Server Issue. Please try After Some Time.');
-            }
-        }
-        checkBackend()
-        .catch((error)=>{
-          dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
-        })
-      },[])
+    //   React.useLayoutEffect(()=>{
+    //     const checkBackend=async()=>{
+    //         const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
+    //         if(!res){
+    //           throw new Error('There Is Some Server Issue. Please try After Some Time.');
+    //         }
+    //     }
+    //     checkBackend()
+    //     .catch((error)=>{
+    //       dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
+    //     })
+    //   },[])
         const [state,dispatch]=React.useReducer(reducer,{open:false,open1:false,open2:false,text:"",header:""});
         const imageRef = React.useRef(null);
         const [cookie,setCookie] = useCookies();

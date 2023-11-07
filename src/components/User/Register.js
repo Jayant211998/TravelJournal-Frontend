@@ -26,23 +26,23 @@ const inputStyle={
 }
 export default function Register(){
 
-  React.useLayoutEffect(()=>{
-    const checkBackend=async()=>{
-        const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
-        if(!res){
-          throw new Error('There Is Some Server Issue. Please try After Some Time.');
-        }
-    }
-    checkBackend()
-    .then(()=>{
-      if(cookie['token']){
-        window.location.replace('/main');
-      }
-    })
-    .catch((error)=>{
-      dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
-    })
-  },[])
+  // React.useLayoutEffect(()=>{
+  //   const checkBackend=async()=>{
+  //       const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
+  //       if(!res){
+  //         throw new Error('There Is Some Server Issue. Please try After Some Time.');
+  //       }
+  //   }
+  //   checkBackend()
+  //   .then(()=>{
+  //     if(cookie['token']){
+  //       window.location.replace('/main');
+  //     }
+  //   })
+  //   .catch((error)=>{
+  //     dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
+  //   })
+  // },[])
 const unique_id = uuid();
 const [cookie] = useCookies(["username","auth","name"]);
 const [otp,setOtp] = React.useState("");

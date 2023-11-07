@@ -18,23 +18,23 @@ const reducer=(state,action)=>{
   }
 }
 export default function EditLocation(props){
-  React.useLayoutEffect(()=>{
-    const checkBackend=async()=>{
-        const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
-        if(!res){
-          throw new Error('There Is Some Server Issue. Please try After Some Time.');
-        }
-    }
-    checkBackend()
-    .then(()=>{
-      if(encrypt[1].decrypt(cookie['auth'])==="user"){
-        dispatch({type:"OPEN2",value:{text:'You Are Not Autherizesd For This Page',header:'Unautherized User'}})
-    }
-    })
-    .catch((error)=>{
-      dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
-    })
-  },[])
+  // React.useLayoutEffect(()=>{
+  //   const checkBackend=async()=>{
+  //       const res = await axios.get(`${process.env.REACT_APP_SERVER}/check`);
+  //       if(!res){
+  //         throw new Error('There Is Some Server Issue. Please try After Some Time.');
+  //       }
+  //   }
+  //   checkBackend()
+  //   .then(()=>{
+  //     if(encrypt[1].decrypt(cookie['auth'])==="user"){
+  //       dispatch({type:"OPEN2",value:{text:'You Are Not Autherizesd For This Page',header:'Unautherized User'}})
+  //   }
+  //   })
+  //   .catch((error)=>{
+  //     dispatch({type:"OPEN",value:{open:true,text:error.message,header:"Server Issue"}});
+  //   })
+  // },[])
   const [cookie] = useCookies(); 
   const images = React.useRef();
   const profile = React.useRef();
